@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>세븐나이츠 리버스 스타 길드</title>
+    <style>
+        /* 전체적인 스타일을 설정합니다 */
+        body {
+            font-family: 'Noto Sans KR', sans-serif; /* 보기 좋은 한글 폰트 적용 */
+            background-color: #f0f2f5; /* 부드러운 배경색 */
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        /* 최상단 배너 스타일 */
+        .banner {
+            width: 100%;
+            max-width: 800px; /* 배너의 최대 너비 설정 */
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .banner img {
+            width: 100%;
+            height: auto;
+            border-radius: 15px; /* 배너 이미지 모서리를 둥글게 */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 추가 */
+        }
+
+        /* 메뉴들을 담을 컨테이너 */
+        .menu-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* 반응형으로 메뉴 배치 */
+            gap: 20px; /* 메뉴 사이의 간격 */
+            width: 100%;
+            max-width: 800px;
+        }
+
+        /* 각 메뉴 박스 스타일 */
+        .menu-item {
+            background-color: white;
+            padding: 30px;
+            border-radius: 20px; /* 모서리를 뭉툭하게 */
+            text-align: center;
+            font-size: 1.5em; /* 글자 크기 키우기 */
+            font-weight: bold;
+            color: #333;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s; /* 부드러운 효과 */
+            cursor: pointer; /* 마우스를 올리면 손가락 모양으로 */
+        }
+
+        /* 마우스를 올렸을 때 효과 */
+        .menu-item:hover {
+            transform: translateY(-5px); /* 살짝 위로 이동 */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* 링크 스타일 제거 */
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="banner">
+        <img src="https://via.placeholder.com/800x200.png?text=세븐나이츠+리버스+스타+길드" alt="세나리버스 스타길드 배너">
+    </div>
+
+    <div class="menu-container">
+        <a href="#"> <div class="menu-item">길드전 가이드</div>
+        </a>
+        <a href="#">
+            <div class="menu-item">공성전 가이드</div>
+        </a>
+        <a href="#">
+            <div class="menu-item">준비중</div>
+        </a>
+        <a href="#">
+            <div class="menu-item">준비중</div>
+        </a>
+        <a href="#">
+            <div class="menu-item">준비중</div>
+        </a>
+        <a href="#">
+            <div class="menu-item">준비중</div>
+        </a>
+    </div>
+
+</body>
+</html>
