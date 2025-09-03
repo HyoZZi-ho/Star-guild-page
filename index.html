@@ -32,11 +32,26 @@
     .title-text .title-star{ color:#ffd166; text-shadow:0 1px 0 rgba(0,0,0,.2); }
     .tagline{ margin-top:6px; color:rgba(255,255,255,.9); font-size:14px; }
 
+    /* 배너 별 배경 */
     .stars{ position:absolute; inset:0; opacity:.6; z-index:0; }
     .stars use{ opacity:.5; animation:twinkle 6s ease-in-out infinite; }
     .stars use:nth-child(3n){ animation-duration:7.5s }
     .stars use:nth-child(4n){ animation-duration:9s }
     @keyframes twinkle{ 0%,100%{opacity:.25} 50%{opacity:.95} }
+
+    /* 배너 하단 크레딧 */
+    .banner-credit{
+      position:absolute;
+      left:50%;
+      bottom:8px;
+      transform:translateX(-50%);
+      font-size:12px;
+      color:rgba(255,255,255,.8);
+      text-shadow:0 1px 2px rgba(0,0,0,.35);
+      z-index:1;
+      pointer-events:none;
+      letter-spacing:.2px;
+    }
 
     /* 링크 기본 제거 */
     a{ text-decoration:none; color:inherit; }
@@ -151,6 +166,14 @@
       border-radius:16px; padding:18px;
       box-shadow:0 6px 12px rgba(0,0,0,.08);
     }
+
+    /* 메인 하단 크레딧 */
+    .home-credit{
+      margin-top:14px;
+      text-align:center;
+      color:rgba(255,255,255,.7);
+      font-size:12px;
+    }
   </style>
 </head>
 <body>
@@ -184,6 +207,9 @@
       </div>
       <div class="tagline">세나 리버스 정보 공유</div>
     </div>
+
+    <!-- 배너 하단 크레딧 -->
+    <div class="banner-credit">Made by 우타</div>
   </div>
 
   <!-- 뷰: 메인 -->
@@ -217,6 +243,9 @@
       <a href="#"><div class="menu-item disabled"><div class="text"><div class="title">준비중</div></div></div></a>
       <a href="#"><div class="menu-item disabled"><div class="text"><div class="title">준비중</div></div></div></a>
     </div>
+
+    <!-- 메인 하단 정보 공유 크레딧 -->
+    <div class="home-credit">정보 공유 - 뀨니 , 빈닝 님 감사합니다</div>
   </section>
 
   <!-- 뷰: 공성전 가이드 (요일 선택) -->
