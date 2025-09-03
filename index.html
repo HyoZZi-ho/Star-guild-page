@@ -8,7 +8,7 @@
     /* 전체 스타일 */
     body{
       font-family:'Noto Sans KR', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-      background-color:#f0f2f5;
+      background-color:#2b2f36; /* 🔸 더 어두운 회색으로 변경 */
       margin:0; padding:20px;
       display:flex; justify-content:center; align-items:center; flex-direction:column;
     }
@@ -82,7 +82,7 @@
     .content-box{
       background:#fff; border-radius:16px; padding:18px; box-shadow:0 4px 8px rgba(0,0,0,.08);
     }
-    .muted{ color:#6b7280; font-size:14px; }
+    .muted{ color:#c4c9d4; font-size:14px; } /* 🔸 회색 배경에서 더 잘 보이도록 */
   </style>
 </head>
 <body>
@@ -110,10 +110,15 @@
 
     <div class="banner-inner">
       <div class="logo">
+        <!-- 왼쪽 별 -->
         <svg class="logo-star" viewBox="0 0 24 24" aria-hidden="true">
           <path fill="currentColor" d="M12 2l3.09 6.26L22 9.27l-5 4.88L18.2 22 12 18.6 5.8 22l1.2-7.85-5-4.88 6.91-1.01L12 2z"/>
         </svg>
         <span class="title-text">세븐나이츠 리버스 스타 길드</span>
+        <!-- 오른쪽 별 🔸 추가 -->
+        <svg class="logo-star" viewBox="0 0 24 24" aria-hidden="true">
+          <path fill="currentColor" d="M12 2l3.09 6.26L22 9.27l-5 4.88L18.2 22 12 18.6 5.8 22l1.2-7.85-5-4.88 6.91-1.01L12 2z"/>
+        </svg>
       </div>
       <div class="tagline">세나 리버스 정보 공유</div>
     </div>
