@@ -452,7 +452,41 @@
     /* ===== 대체 빌드(B) 자리(스켈레톤)들 ===== */
     const MON_B = skeleton('월요일(루디) · 대체 빌드');
     const TUE_B = skeleton('화요일(아일린) · 대체 빌드');
-    const WED_BIS = skeleton('수요일(레이첼) · 비스킷 빌드');
+    const WED_BIS = `
+      <h3 style="margin:0 0 10px">세팅 · 영웅 배치</h3>
+      <ul style="margin:0 12px 14px 18px; line-height:1.7">
+        <li>배치: 보호진영 <b>후열 루리</b> / 전열 아리엘 · 비스킷 · 연희 · 리나</li>
+        <li>루리: 치확 69% (+반지 10%), 치피 240%, 약공 50% (+반지 8%)</li>
+        <li>연희 · 아리엘 · 바네사 · 복수자: 치확 85~90%, 치피 190~200%</li>
+        <li>아리엘: 부옵 생/방% 있으면 좋음 · 위 3캐릭 <b>권능 또는 불사 필수</b></li>
+        <li>비스킷: 복수자 치확/치확 , 방/방</li>
+      </ul>
+      <h3 style="margin:0 0 8px">스킬 순서</h3>
+      <hr style="border:none;border-top:1px dashed #cbd5e1; margin:6px 0 10px"/>
+      <ol style="margin:0 0 0 18px; line-height:1.7">
+        <li>아리엘 위</li>
+        <li>비스킷 위</li>
+        <li>아리엘 아래</li>
+        <li>리나 위</li>
+        <li>비스킷 아래</li>
+        <li>루리 위</li>
+        <li>루리 아래</li>
+        <li>연희 아래</li>
+        <li>아리엘 아래</li>
+        <li>아리엘 위</li>
+        <li>리나 아래</li>
+        <li>루리 위</li>
+        <li>루리 아래</li>
+        <li>비스킷 아래</li>
+        <li>아리엘 아래</li>
+        <li>리나 위</li>
+        <li>연희 아래</li>
+        <li>루리 위</li>
+        <li>루리 아래</li>
+        <li>비스킷 위</li>
+      </ol>
+    `;
+
     const THU_B = skeleton('목요일(델론즈) · 대체 빌드');
     const FRI_B = skeleton('금요일(제이브) · 대체 빌드');
     const SAT_B = skeleton('토요일(스파이크) · 대체 빌드');
