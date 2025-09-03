@@ -222,11 +222,10 @@
         </div>
       </a>
 
-      <!-- 새로 추가: 웹사이트 출석체크 (새 탭) -->
+      <!-- 웹사이트 출석체크 (새 탭) -->
       <a href="https://skre-shop.netmarble.com/event/daily_gift" target="_blank" rel="noopener">
         <div class="menu-item checkin" data-tile="checkin">
           <div class="shine"></div>
-          <!-- 선물 아이콘 -->
           <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
             <path fill="currentColor" d="M20 7h-2.1c.4-.5.6-1.1.6-1.8C18.5 3.6 17 2 15.2 2c-1.4 0-2.6.9-3.2 2.1C11.4 2.9 10.2 2 8.8 2 7 2 5.5 3.6 5.5 5.2c0 .7.2 1.3.6 1.8H4v4h2v9h6v-9h2v9h6v-9h2V7h-2zm-8-2c.6-1 1.6-1.3 2.3-1.3.8 0 1.7.7 1.7 1.5S14.5 7 13.7 7H12V5zm-2 2H8.3C7.5 7 6.5 6.4 6.5 5.6S7.4 4 8.2 4C8.9 4 10 4.6 10.6 6V7z"/>
           </svg>
@@ -237,7 +236,7 @@
         </div>
       </a>
 
-      <!-- 나머지 자리: 준비중 -->
+      <!-- 자리 채움 -->
       <a href="#"><div class="menu-item disabled"><div class="text"><div class="title">준비중</div></div></div></a>
       <a href="#"><div class="menu-item disabled"><div class="text"><div class="title">준비중</div></div></div></a>
       <a href="#"><div class="menu-item disabled"><div class="text"><div class="title">준비중</div></div></div></a>
@@ -308,7 +307,7 @@
       `;
     }
 
-    /* ▼ 요일별 콘텐츠: 월/화/수 반영, 나머진 템플릿 */
+    /* ▼ 요일별 콘텐츠: 월/화/수/목/금/토 반영, 일요일은 공지 */
     const DAY_CONTENT = {
       mon: `
         <h3 style="margin:0 0 10px">세팅</h3>
@@ -407,10 +406,105 @@
         </ol>
         <p style="margin:8px 0 0; color:#64748b; font-size:13px">* 마지막 턴은 살아있는 순서대로 스킬 바꿔도 무방</p>
       `,
-      thu: skeleton('목요일'),
-      fri: skeleton('금요일'),
-      sat: skeleton('토요일'),
-      sun: skeleton('일요일'),
+      thu: `
+        <h3 style="margin:0 0 10px">세팅 · 영웅 배치</h3>
+        <ul style="margin:0 12px 14px 18px; line-height:1.7">
+          <li>배치: 보호진영 <b>후열 타카</b> / 전열 레이첼 · 비스킷 · 진 · 리나</li>
+          <li>초반: <b>비스킷 2초</b> 시, <b>진 공격력 &le; 타카 - 500</b> (최소 500 낮게)</li>
+          <li>권능: 다다익선(진 권능 추천), 레이첼 <b>2초월</b> 기준</li>
+        </ul>
+        <h3 style="margin:0 0 8px">스킬 순서</h3>
+        <hr style="border:none;border-top:1px dashed #cbd5e1; margin:6px 0 10px"/>
+        <ol style="margin:0 0 0 18px; line-height:1.7">
+          <li>진 아래</li>
+          <li>진 위</li>
+          <li>레이첼 위</li>
+          <li>비스킷 아래</li>
+          <li>리나 위</li>
+          <li>타카 아래</li>
+          <li>타카 위</li>
+          <li>레이첼 아래</li>
+          <li>진 아래</li>
+          <li>진 위</li>
+          <li>레이첼 위</li>
+          <li>타카 아래 <em>또는</em> 타카 위(먼저 도는 대로)</li>
+          <li>비스킷 아래</li>
+          <li>레이첼 아래</li>
+          <li>리나 위</li>
+          <li>레이첼 위</li>
+          <li>타카 위</li>
+          <li>진 위</li>
+          <li>타카 아래</li>
+        </ol>
+      `,
+      fri: `
+        <h3 style="margin:0 0 10px">세팅 · 영웅 배치</h3>
+        <ul style="margin:0 12px 14px 18px; line-height:1.7">
+          <li>배치: 보호진영 <b>후열 타카</b> / 전열 레이첼 · 지크 · 유이 · 비스킷</li>
+          <li>참고: <b>비스킷 6초</b> 시 타카·레이첼 <em>밸진</em></li>
+        </ul>
+        <h3 style="margin:0 0 8px">스킬 순서</h3>
+        <hr style="border:none;border-top:1px dashed #cbd5e1; margin:6px 0 10px"/>
+        <ol style="margin:0 0 0 18px; line-height:1.7">
+          <li>타카 아래</li>
+          <li>타카 위</li>
+          <li>레이첼 위</li>
+          <li>비스킷 아래</li>
+          <li>지크 아래</li>
+          <li>유이 아래</li>
+          <li>레이첼 아래</li>
+          <li>타카 아래</li>
+          <li>타카 위</li>
+          <li>레이첼 위</li>
+          <li>비스킷 아래</li>
+          <li>레이첼 아래</li>
+          <li>타카 아래</li>
+          <li>타카 위</li>
+          <li>지크 위</li>
+          <li>유이 아래</li>
+          <li>레이첼 위</li>
+          <li><em>(유이 위)</em></li>
+          <li>타카 위</li>
+          <li>타카 아래</li>
+        </ol>
+      `,
+      sat: `
+        <h3 style="margin:0 0 10px">세팅 · 영웅 배치</h3>
+        <ul style="margin:0 12px 14px 18px; line-height:1.7">
+          <li>배치: 보호진영 <b>후열 타카</b> / 전열 풍연 · 리나 · 레이첼 · 비스킷</li>
+          <li>세팅: <b>풍연 스킬</b>로 1, 2라운드 마무리 가능할 정도</li>
+        </ul>
+        <h3 style="margin:0 0 8px">스킬 순서</h3>
+        <hr style="border:none;border-top:1px dashed #cbd5e1; margin:6px 0 10px"/>
+        <ol style="margin:0 0 0 18px; line-height:1.7">
+          <li>풍연 아래</li>
+          <li>풍연 위</li>
+          <li>비스킷 아래</li>
+          <li>비스킷 위</li>
+          <li>레이첼 위</li>
+          <li>리나 위</li>
+          <li>타카 아래</li>
+          <li>타카 위</li>
+          <li>레이첼 아래</li>
+          <li>비스킷 위</li>
+          <li>레이첼 위</li>
+          <li>비스킷 아래</li>
+          <li>타카 아래</li>
+          <li>타카 위</li>
+          <li>리나 위</li>
+          <li>비스킷 위</li>
+          <li>레이첼 아래</li>
+          <li>레이첼 위</li>
+          <li>타카 위</li>
+          <li>타카 아래</li>
+        </ol>
+      `,
+      sun: `
+        <h3 style="margin:0 0 8px">데이터 수집중</h3>
+        <p style="margin:0; line-height:1.7">
+          일요일(크리스) 공성전 데이터 수집중입니다. 최신 공략이 정리되는 대로 업데이트할게요.
+        </p>
+      `,
     };
 
     function show(id){
