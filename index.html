@@ -37,30 +37,77 @@
     .stars use:nth-child(4n){ animation-duration:9s }
     @keyframes twinkle{ 0%,100%{opacity:.25} 50%{opacity:.95} }
 
-    /* 공통 타일/버튼 */
+    /* 공통 링크 스타일 제거 */
     a{ text-decoration:none; color:inherit; }
 
+    /* ====== 메인 메뉴 타일 ====== */
     .menu-container{
-      display:grid; grid-template-columns:repeat(auto-fit, minmax(250px,1fr));
+      display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr));
       gap:20px; width:100%; max-width:800px;
     }
     .menu-item{
+      --mx:50%; --my:50%;                /* 마우스 하이라이트 위치 */
+      --accent:#66d9e8;                   /* 기본 포커스 색 */
+      position:relative;
+      display:flex; align-items:center; gap:14px;
       background:linear-gradient(180deg,#ffffff,#f4f6fa);
       border:1px solid rgba(0,0,0,.06);
-      padding:30px; border-radius:20px;
-      text-align:center; font-size:1.5em; font-weight:bold; color:#2a2f36;
+      padding:22px 22px 22px 18px;
+      border-radius:22px;
+      color:#1f2937;
       box-shadow:0 6px 14px rgba(0,0,0,.12);
-      transition:transform .18s, box-shadow .18s, border-color .18s;
+      transition:transform .18s, box-shadow .18s, border-color .18s, background .18s;
       cursor:pointer;
+      overflow:hidden;
+      isolation:isolate;
     }
+    /* 왼쪽 컬러바 */
+    .menu-item::before{
+      content:""; position:absolute; left:0; top:14px; bottom:14px; width:6px;
+      border-radius:10px;
+      background:linear-gradient(180deg, var(--accent), #22b8cf);
+      opacity:.9;
+    }
+    /* 마우스가 따라다니는 라이트 스팟 */
+    .menu-item::after{
+      content:""; position:absolute; inset:-1px;
+      background:
+        radial-gradient(180px 120px at var(--mx) var(--my), rgba(102,217,232,.14), transparent 60%),
+        linear-gradient(180deg, transparent, rgba(255,255,255,.06));
+      pointer-events:none; z-index:0;
+      transition:opacity .2s;
+      opacity:.7;
+    }
+    /* 샤인 스윕 */
+    .menu-item .shine{
+      content:""; position:absolute; inset:-1px; z-index:0;
+      background:linear-gradient(120deg, transparent 0%, rgba(255,255,255,.35) 20%, transparent 40%);
+      transform:translateX(-150%);
+      transition:transform .6s ease;
+    }
+    .menu-item:hover .shine{ transform:translateX(150%); }
+
     .menu-item:hover{
-      transform:translateY(-5px);
-      box-shadow:0 10px 20px rgba(0,0,0,.2);
-      border-color:#66d9e8;
+      transform:translateY(-4px);
+      box-shadow:0 12px 22px rgba(0,0,0,.22);
+      border-color:var(--accent);
     }
+    .menu-item .icon{
+      width:34px; height:34px; flex-shrink:0; color:var(--accent);
+      filter:drop-shadow(0 2px 4px rgba(0,0,0,.15));
+      z-index:1;
+    }
+    .menu-item .text{ z-index:1; }
+    .menu-item .title{ font-size:1.15em; font-weight:900; line-height:1.1; }
+    .menu-item .sub{ margin-top:2px; font-size:.88em; color:#4b5563; }
+
+    /* 타일별 포커스 색상 */
+    .menu-item.war{ --accent:#f97316; }    /* 주황 (길드전) */
+    .menu-item.siege{ --accent:#60a5fa; }  /* 파랑 (공성전) */
+
     .disabled{ opacity:.55; pointer-events:none; }
 
-    /* View 전환 섹션 */
+    /* ====== 뷰 전환 섹션 ====== */
     .view{ width:100%; max-width:800px; display:none; }
     .view.active{ display:block; }
 
@@ -76,7 +123,7 @@
     .btn:hover{ filter:brightness(1.05); }
 
     .page-title{
-      font-size:22px; font-weight:900; color:#eef2f7; /* 밝은 색으로 가독성 ↑ */
+      font-size:22px; font-weight:900; color:#eef2f7;
       margin:10px 0 16px;
     }
 
@@ -114,7 +161,6 @@
       border:1px solid rgba(0,0,0,.06);
       border-radius:16px; padding:18px;
       box-shadow:0 6px 12px rgba(0,0,0,.08);
-      min-height:120px; /* 내용 없어도 레이아웃 안정 */
     }
   </style>
 </head>
@@ -162,14 +208,39 @@
     <div class="menu-container">
       <!-- 길드전 가이드: 같은 탭에서 외부 링크로 이동 -->
       <a href="https://www.hancomdocs.com/open?fileId=x8vPqLuFl2x8AYmLoYp2fSwZqLAXeFh6" rel="noopener">
-        <div class="menu-item">길드전 가이드</div>
+        <div class="menu-item war" data-tile="war">
+          <div class="shine"></div>
+          <!-- 교차된 검(길드전) -->
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path fill="currentColor" d="M7.1 2l2.8 2.8-1.4 1.4L5.7 3.4 4.3 4.8l2.8 2.8-1.4 1.4L2.9 6.2 2 7.1l5.7 5.7-1.4 1.4L.6 8.6 2 7.1 3.4 5.7l-2-2L3.7 1l2 2L7.1 2zm9.8 20l-2.8-2.8 1.4-1.4 2.8 2.8 1.4-1.4-2.8-2.8 1.4-1.4 2.8 2.8.9-.9-5.7-5.7 1.4-1.4 7.7 7.7-1.4 1.4-1.4 1.4 2 2-2.3 2.3-2-2-.9.9zM8.6 8.6l6.8 6.8-1.4 1.4-6.8-6.8 1.4-1.4z"/>
+          </svg>
+          <div class="text">
+            <div class="title">길드전 가이드</div>
+            <div class="sub">규칙 · 전술 · 금지사항</div>
+          </div>
+        </div>
       </a>
+
       <!-- 공성전 가이드: 내부 라우팅 -->
-      <a href="#/siege"><div class="menu-item">공성전 가이드</div></a>
-      <a href="#"><div class="menu-item disabled">준비중</div></a>
-      <a href="#"><div class="menu-item disabled">준비중</div></a>
-      <a href="#"><div class="menu-item disabled">준비중</div></a>
-      <a href="#"><div class="menu-item disabled">준비중</div></a>
+      <a href="#/siege">
+        <div class="menu-item siege" data-tile="siege">
+          <div class="shine"></div>
+          <!-- 성채(공성전) -->
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path fill="currentColor" d="M4 3h4v3h2V3h4v3h2V3h4v18H4V3zm2 8h12v8H6v-8zm2 2v4h2v-4H8zm6 0v4h2v-4h-2z"/>
+          </svg>
+          <div class="text">
+            <div class="title">공성전 가이드</div>
+            <div class="sub">요일별 루트 · 포지션</div>
+          </div>
+        </div>
+      </a>
+
+      <!-- 자리 채움용(비활성) -->
+      <a href="#"><div class="menu-item disabled"><div class="text"><div class="title">준비중</div></div></div></a>
+      <a href="#"><div class="menu-item disabled"><div class="text"><div class="title">준비중</div></div></div></a>
+      <a href="#"><div class="menu-item disabled"><div class="text"><div class="title">준비중</div></div></div></a>
+      <a href="#"><div class="menu-item disabled"><div class="text"><div class="title">준비중</div></div></div></a>
     </div>
   </section>
 
@@ -197,10 +268,21 @@
       <a class="btn" href="#/">← 메인으로</a>
     </div>
     <div class="day-title" id="day-title">월요일</div>
-    <div class="content-box" id="day-content"><!-- 내용 없이 비워둠 --></div>
+    <div class="content-box" id="day-content"></div>
   </section>
 
   <script>
+    /* ===== 마우스 라이트 스팟 (메뉴 타일) ===== */
+    document.querySelectorAll('.menu-item').forEach(el=>{
+      el.addEventListener('pointermove', e=>{
+        const r = el.getBoundingClientRect();
+        const x = ((e.clientX - r.left) / r.width) * 100;
+        const y = ((e.clientY - r.top)  / r.height) * 100;
+        el.style.setProperty('--mx', x+'%');
+        el.style.setProperty('--my', y+'%');
+      });
+    });
+
     /* ===== 간단 라우터 (Hash 기반, 뒤로가기 지원) ===== */
     const DAY_LABELS = {
       mon:'월요일', tue:'화요일', wed:'수요일', thu:'목요일',
@@ -230,7 +312,7 @@
         const title = DAY_LABELS[day] || '요일';
         document.getElementById('day-title').textContent = title;
 
-        // 내용은 비워둠(요청대로 안내 문구 제거)
+        // 내용은 필요 시 자유롭게 세팅
         document.getElementById('day-content').innerHTML = "";
 
         show('view-day');
