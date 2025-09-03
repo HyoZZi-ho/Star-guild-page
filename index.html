@@ -202,7 +202,7 @@
           </svg>
           <div class="text">
             <div class="title">길드전 가이드</div>
-            <div class="sub">추천 전술 #뀨니님</div>
+            <div class="sub">추천 전술</div>
           </div>
         </div>
       </a>
@@ -289,6 +289,130 @@
       fri:'금요일', sat:'토요일', sun:'일요일'
     };
 
+    /* ▼ 요일별 기본 템플릿 함수 */
+    function skeleton(title){
+      return `
+        <h3 style="margin:0 0 10px">${title} · 세팅</h3>
+        <ul style="margin:0 12px 14px 18px; line-height:1.7">
+          <li>(예시) 핵심 조건 · 스탯: <em style="color:#6b7280">작성 예정</em></li>
+          <li>(예시) 권능/유물/특수조건: <em style="color:#6b7280">작성 예정</em></li>
+        </ul>
+        <h3 style="margin:0 0 8px">${title} · 스킬 순서</h3>
+        <hr style="border:none;border-top:1px dashed #cbd5e1; margin:6px 0 10px"/>
+        <ol style="margin:0 0 0 18px; line-height:1.7">
+          <li><em style="color:#6b7280">작성 예정</em></li>
+          <li><em style="color:#6b7280">작성 예정</em></li>
+          <li><em style="color:#6b7280">작성 예정</em></li>
+        </ol>
+        <p style="margin:10px 0 0; color:#94a3b8; font-size:13px">※ 내용 보내주면 즉시 업데이트할게요.</p>
+      `;
+    }
+
+    /* ▼ 요일별 콘텐츠: 월/화/수 반영, 나머진 템플릿 */
+    const DAY_CONTENT = {
+      mon: `
+        <h3 style="margin:0 0 10px">세팅</h3>
+        <ul style="margin:0 12px 14px 18px; line-height:1.7">
+          <li>루리: 치확 69% (+반지 10%), 치피 250%, 약공 40%</li>
+          <li>비스킷: 복수자, 치확/치피 (권능)</li>
+          <li>연희: 복수자, 치확/치피, 약공 10% (권능, 불사)</li>
+        </ul>
+        <h3 style="margin:0 0 8px">스킬 순서</h3>
+        <hr style="border:none;border-top:1px dashed #cbd5e1; margin:6px 0 10px"/>
+        <ol style="margin:0 0 0 18px; line-height:1.7">
+          <li>루리 아래</li>
+          <li>연희 아래</li>
+          <li>루리 위</li>
+          <li>비스킷 위</li>
+          <li>비스킷 아래</li>
+          <li>리나 위</li>
+          <li>리나 아래</li>
+          <li>루리 위</li>
+          <li>루리 아래</li>
+          <li>비스킷 위</li>
+          <li>연희 아래</li>
+          <li>루리 위</li>
+          <li>루리 아래</li>
+          <li>에반 위</li>
+          <li>루리 위</li>
+          <li>비스킷 아래</li>
+          <li>루리 아래</li>
+          <li>루리 위</li>
+          <li>비스킷 위</li>
+          <li>리나 위</li>
+          <li>연희 아래</li>
+          <li>루리 위</li>
+          <li>루리 아래</li>
+        </ol>
+      `,
+      tue: `
+        <h3 style="margin:0 0 10px">세팅</h3>
+        <ul style="margin:0 12px 14px 18px; line-height:1.7">
+          <li>루리: <b>속공 최저</b>, 치확 57%, 치피 252%</li>
+          <li>연희 · 비스킷 · 복수자 (연희/비스킷 권능: 불사)</li>
+        </ul>
+        <h3 style="margin:0 0 8px">스킬 순서</h3>
+        <hr style="border:none;border-top:1px dashed #cbd5e1; margin:6px 0 10px"/>
+        <ol style="margin:0 0 0 18px; line-height:1.7">
+          <li>비스킷 위</li>
+          <li>클로에 위</li>
+          <li>비스킷 아래</li>
+          <li>리나 위</li>
+          <li>루리 위</li>
+          <li>루리 아래</li>
+          <li>(턴 스킵)</li>
+          <li>리나 아래</li>
+          <li>클로에 위</li>
+          <li>연희 아래</li>
+          <li>루리 위</li>
+          <li>루리 아래</li>
+          <li>비스킷 위</li>
+          <li>비스킷 아래</li>
+          <li>리나 위</li>
+          <li>클로에 위</li>
+          <li>리나 힐</li>
+          <li>루리 위</li>
+          <li>루리 아래</li>
+          <li>연희 아래</li>
+        </ol>
+      `,
+      wed: `
+        <h3 style="margin:0 0 10px">세팅</h3>
+        <ul style="margin:0 12px 14px 18px; line-height:1.7">
+          <li>레이첼: 치확 69% (+반지 10%), 치피 240%, 약공 50% (+반지 8%)</li>
+          <li>연희 · 아리엘 · 바네사 · 복수자: 치확 85~90%, 치피 190~200%</li>
+          <li>아리엘: 부옵 생/방% 있으면 좋음 · 위 3캐릭 <b>권능 또는 불사 필수</b></li>
+        </ul>
+        <h3 style="margin:0 0 8px">스킬 순서</h3>
+        <hr style="border:none;border-top:1px dashed #cbd5e1; margin:6px 0 10px"/>
+        <ol style="margin:0 0 0 18px; line-height:1.7">
+          <li>아리엘 아래</li>
+          <li>바네사 위</li>
+          <li>리나 위</li>
+          <li>루리 위</li>
+          <li>바네사 아래</li>
+          <li>루리 아래</li>
+          <li>연희 아래</li>
+          <li>아리엘 아래</li>
+          <li>아리엘 위</li>
+          <li>루리 위</li>
+          <li>리나 아래</li>
+          <li>리나 위</li>
+          <li>바네사 아래</li>
+          <li>루리 아래</li>
+          <li>아리엘 아래</li>
+          <li>아리엘 위</li>
+          <li>바네사 위</li>
+          <li>루리 위</li>
+        </ol>
+        <p style="margin:8px 0 0; color:#64748b; font-size:13px">* 마지막 턴은 살아있는 순서대로 스킬 바꿔도 무방</p>
+      `,
+      thu: skeleton('목요일'),
+      fri: skeleton('금요일'),
+      sat: skeleton('토요일'),
+      sun: skeleton('일요일'),
+    };
+
     function show(id){
       document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
       document.getElementById(id).classList.add('active');
@@ -311,7 +435,10 @@
         const day = parts[1];       // 요일 상세
         const title = DAY_LABELS[day] || '요일';
         document.getElementById('day-title').textContent = title;
-        document.getElementById('day-content').innerHTML = ""; // 내용은 필요 시 채워넣기
+
+        // 👉 요일별 내용 표시 (없으면 템플릿)
+        document.getElementById('day-content').innerHTML = DAY_CONTENT[day] || skeleton(title);
+
         show('view-day');
         return;
       }
