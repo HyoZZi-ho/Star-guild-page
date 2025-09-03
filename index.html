@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>세븐나이츠 리버스 스타 길드</title>
   <style>
-    /* 전체적인 스타일 */
+    /* 전체 스타일 */
     body{
       font-family:'Noto Sans KR', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
       background-color:#f0f2f5;
@@ -13,7 +13,7 @@
       display:flex; justify-content:center; align-items:center; flex-direction:column;
     }
 
-    /* 최상단 배너(별 반짝임) */
+    /* ⭐ 최상단 배너 (반짝이는 별) */
     .banner{
       position:relative;
       width:100%; max-width:800px; margin-bottom:30px;
@@ -31,14 +31,14 @@
     .title-text{ font-size:28px; font-weight:900; letter-spacing:-.4px; }
     .tagline{ margin-top:6px; color:rgba(255,255,255,.9); font-size:14px; }
 
-    /* 배경 별(Twinkle) */
     .stars{ position:absolute; inset:0; opacity:.6; z-index:0; }
     .stars use{ opacity:.5; animation:twinkle 6s ease-in-out infinite; }
     .stars use:nth-child(3n){ animation-duration:7.5s }
     .stars use:nth-child(4n){ animation-duration:9s }
     @keyframes twinkle{ 0%,100%{opacity:.25} 50%{opacity:.95} }
 
-    /* 메뉴 컨테이너/아이템 */
+    /* 공통 타일/버튼 */
+    a{ text-decoration:none; color:inherit; }
     .menu-container{
       display:grid; grid-template-columns:repeat(auto-fit, minmax(250px,1fr));
       gap:20px; width:100%; max-width:800px;
@@ -50,16 +50,44 @@
       transition:transform .2s, box-shadow .2s; cursor:pointer;
     }
     .menu-item:hover{ transform:translateY(-5px); box-shadow:0 8px 16px rgba(0,0,0,.2); }
-
-    /* 링크 기본 스타일 제거 */
-    a{ text-decoration:none; color:inherit; }
-    /* 비활성(준비중) 타일에 쓰면 좋음: <div class="menu-item disabled"> */
     .disabled{ opacity:.55; pointer-events:none; }
+
+    /* View 전환 섹션 */
+    .view{ width:100%; max-width:800px; display:none; }
+    .view.active{ display:block; }
+
+    /* 공성전 가이드 내부 */
+    .topbar{
+      display:flex; gap:10px; align-items:center; margin-bottom:16px;
+    }
+    .btn{
+      display:inline-block; padding:10px 14px; font-weight:700;
+      background:#0e1523; color:#e6eaf0; border-radius:12px; border:1px solid rgba(0,0,0,.08);
+      box-shadow:0 2px 6px rgba(0,0,0,.12);
+    }
+    .btn:hover{ filter:brightness(1.05); }
+
+    .day-grid{
+      display:grid; grid-template-columns:repeat(auto-fit, minmax(160px,1fr));
+      gap:12px;
+    }
+    .day-card{
+      background:#fff; border-radius:16px; padding:18px; text-align:center; font-weight:800;
+      box-shadow:0 4px 8px rgba(0,0,0,.08); cursor:pointer;
+      transition:transform .15s;
+    }
+    .day-card:hover{ transform:translateY(-3px); }
+
+    .day-title{ font-size:20px; font-weight:900; margin:10px 0 16px; }
+    .content-box{
+      background:#fff; border-radius:16px; padding:18px; box-shadow:0 4px 8px rgba(0,0,0,.08);
+    }
+    .muted{ color:#6b7280; font-size:14px; }
   </style>
 </head>
 <body>
 
-  <!-- ⭐ 반짝이는 별 배너 -->
+  <!-- 배너 -->
   <div class="banner">
     <svg class="stars" viewBox="0 0 1200 260" preserveAspectRatio="none" aria-hidden="true">
       <defs>
@@ -67,7 +95,6 @@
           <path d="M12 2.2l2.9 6 6.6 1-4.8 4.6 1.1 6.5L12 17.9 6.2 20.3l1.1-6.5-4.8-4.6 6.6-1L12 2.2z" fill="white"/>
         </symbol>
       </defs>
-      <!-- 여러 크기/위치의 별 -->
       <use href="#s-star" x="80"  y="40"  width="12" height="12"/>
       <use href="#s-star" x="210" y="90"  width="16" height="16"/>
       <use href="#s-star" x="380" y="30"  width="10" height="10"/>
@@ -86,26 +113,109 @@
         <svg class="logo-star" viewBox="0 0 24 24" aria-hidden="true">
           <path fill="currentColor" d="M12 2l3.09 6.26L22 9.27l-5 4.88L18.2 22 12 18.6 5.8 22l1.2-7.85-5-4.88 6.91-1.01L12 2z"/>
         </svg>
-        <span class="title-text">세븐나이츠 리버스 · 스타 길드</span>
+        <span class="title-text">세븐나이츠 리버스 스타 길드</span>
       </div>
-      <div class="tagline">Senaverse Star Guild</div>
+      <div class="tagline">세나 리버스 정보 공유</div>
     </div>
   </div>
 
-  <!-- 큼지막한 메뉴 타일들 -->
-  <div class="menu-container">
-    <!-- TODO: 여기를 네 실제 시트/문서 링크로 바꿔 넣어 -->
-    <a href="https://docs.google.com/spreadsheets/d/예시" target="_blank" rel="noopener">
-      <div class="menu-item">길드전 가이드</div>
-    </a>
-    <a href="#" target="_blank" rel="noopener">
-      <div class="menu-item">공성전 가이드</div>
-    </a>
-    <a href="#"><div class="menu-item disabled">준비중</div></a>
-    <a href="#"><div class="menu-item disabled">준비중</div></a>
-    <a href="#"><div class="menu-item disabled">준비중</div></a>
-    <a href="#"><div class="menu-item disabled">준비중</div></a>
-  </div>
+  <!-- 뷰: 메인 -->
+  <section id="view-home" class="view active">
+    <div class="menu-container">
+      <!-- 길드전 가이드: 같은 탭에서 외부 링크로 이동 -->
+      <a href="https://www.hancomdocs.com/open?fileId=x8vPqLuFl2x8AYmLoYp2fSwZqLAXeFh6" rel="noopener">
+        <div class="menu-item">길드전 가이드</div>
+      </a>
+      <!-- 공성전 가이드: 내부 라우팅 -->
+      <a href="#/siege"><div class="menu-item">공성전 가이드</div></a>
+      <a href="#"><div class="menu-item disabled">준비중</div></a>
+      <a href="#"><div class="menu-item disabled">준비중</div></a>
+      <a href="#"><div class="menu-item disabled">준비중</div></a>
+      <a href="#"><div class="menu-item disabled">준비중</div></a>
+    </div>
+  </section>
 
+  <!-- 뷰: 공성전 가이드 (요일 선택) -->
+  <section id="view-siege" class="view">
+    <div class="topbar">
+      <a class="btn" href="#/">← 메인으로</a>
+    </div>
+    <div class="day-title">공성전 가이드</div>
+    <div class="day-grid">
+      <a class="day-card" href="#/siege/mon">월요일</a>
+      <a class="day-card" href="#/siege/tue">화요일</a>
+      <a class="day-card" href="#/siege/wed">수요일</a>
+      <a class="day-card" href="#/siege/thu">목요일</a>
+      <a class="day-card" href="#/siege/fri">금요일</a>
+      <a class="day-card" href="#/siege/sat">토요일</a>
+      <a class="day-card" href="#/siege/sun">일요일</a>
+    </div>
+    <p class="muted" style="margin-top:10px">원하는 요일을 선택하면 상세 내용을 이 화면에서 바로 보여줘요. 브라우저 ‘뒤로가기’로 언제든 돌아올 수 있습니다.</p>
+  </section>
+
+  <!-- 뷰: 요일 상세 -->
+  <section id="view-day" class="view">
+    <div class="topbar">
+      <a class="btn" href="#/siege">← 공성전 가이드로</a>
+      <a class="btn" href="#/">← 메인으로</a>
+    </div>
+    <div class="day-title" id="day-title">월요일</div>
+    <div class="content-box" id="day-content">
+      <!-- 여기에 요일별 공략/루트/금지사항 등을 적어주세요 -->
+      <p class="muted">예: 추천 포지션/루트, 금지 사항, 필수 준비물 등</p>
+    </div>
+  </section>
+
+  <script>
+    /* ===== 간단 라우터 (Hash 기반, 뒤로가기 지원) ===== */
+    const DAY_LABELS = {
+      mon:'월요일', tue:'화요일', wed:'수요일', thu:'목요일',
+      fri:'금요일', sat:'토요일', sun:'일요일'
+    };
+
+    function show(id){
+      document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      window.scrollTo({top:0, behavior:'instant'});
+    }
+
+    function route(){
+      const hash = location.hash.replace(/^#\/?/, ''); // '', 'siege', 'siege/mon'
+      const parts = hash.split('/').filter(Boolean);
+
+      if(parts.length === 0){
+        show('view-home');          // 메인
+        return;
+      }
+      if(parts[0] === 'siege' && parts.length === 1){
+        show('view-siege');         // 공성전 가이드
+        return;
+      }
+      if(parts[0] === 'siege' && parts[1]){
+        const day = parts[1];       // 요일 상세
+        const title = DAY_LABELS[day] || '요일';
+        document.getElementById('day-title').textContent = title;
+
+        // ▼ 필요하면 요일별 상세 내용을 여기서 분기해 채워 넣으세요.
+        const box = document.getElementById('day-content');
+        box.innerHTML = `
+          <h3 style="margin:0 0 10px">${title} 운영 가이드</h3>
+          <ul style="margin:0 0 8px 18px; line-height:1.6">
+            <li>추천 포지션: 예) 탱 2 / 딜 3 / 힐 1</li>
+            <li>추천 루트: 예) 중앙 → 좌측 성문 → 보스</li>
+            <li>금지 사항: 예) 초반 단독 돌진 금지, 보스 홀딩 전 광폭 사용 금지</li>
+          </ul>
+          <p class="muted">※ 실제 세부 내용은 길드 운영 정책에 맞춰 자유롭게 수정하세요.</p>
+        `;
+        show('view-day');
+        return;
+      }
+      // 그 외 경로는 홈으로
+      show('view-home');
+    }
+
+    window.addEventListener('hashchange', route);
+    window.addEventListener('load', route);
+  </script>
 </body>
 </html>
