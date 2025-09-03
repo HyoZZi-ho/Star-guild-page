@@ -8,7 +8,7 @@
     /* 전체 스타일 */
     body{
       font-family:'Noto Sans KR', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-      background-color:#2b2f36; /* 어두운 회색 배경 */
+      background-color:#2b2f36;
       margin:0; padding:20px;
       display:flex; justify-content:center; align-items:center; flex-direction:column;
     }
@@ -29,7 +29,7 @@
     .logo{ display:inline-flex; gap:10px; align-items:center; }
     .logo-star{ width:42px; height:42px; color:#ffd166; filter:drop-shadow(0 4px 10px rgba(0,0,0,.25)); }
     .title-text{ font-size:28px; font-weight:900; letter-spacing:-.4px; }
-    .title-text .title-star{ color:#ffd166; text-shadow:0 1px 0 rgba(0,0,0,.2); } /* '스타'만 노란색 */
+    .title-text .title-star{ color:#ffd166; text-shadow:0 1px 0 rgba(0,0,0,.2); }
     .tagline{ margin-top:6px; color:rgba(255,255,255,.9); font-size:14px; }
 
     .stars{ position:absolute; inset:0; opacity:.6; z-index:0; }
@@ -38,7 +38,7 @@
     .stars use:nth-child(4n){ animation-duration:9s }
     @keyframes twinkle{ 0%,100%{opacity:.25} 50%{opacity:.95} }
 
-    /* 공통 링크 스타일 제거 */
+    /* 링크 기본 제거 */
     a{ text-decoration:none; color:inherit; }
 
     /* ====== 메인 메뉴 타일 ====== */
@@ -87,10 +87,9 @@
     .menu-item .title{ font-size:1.15em; font-weight:900; line-height:1.1; }
     .menu-item .sub{ margin-top:2px; font-size:.88em; color:#4b5563; }
 
-    .menu-item.war{ --accent:#f97316; }     /* 주황 (길드전) */
-    .menu-item.siege{ --accent:#60a5fa; }   /* 파랑 (공성전) */
-    .menu-item.checkin{ --accent:#22c55e; } /* 초록 (출석체크) */
-
+    .menu-item.war{ --accent:#f97316; }
+    .menu-item.siege{ --accent:#60a5fa; }
+    .menu-item.checkin{ --accent:#22c55e; }
     .disabled{ opacity:.55; pointer-events:none; }
 
     /* ====== 뷰 전환 섹션 ====== */
@@ -98,9 +97,7 @@
     .view.active{ display:block; }
 
     /* 공성전 가이드 내부 */
-    .topbar{
-      display:flex; gap:10px; align-items:center; margin-bottom:16px;
-    }
+    .topbar{ display:flex; gap:10px; align-items:center; margin-bottom:16px; }
     .btn{
       display:inline-block; padding:10px 14px; font-weight:700;
       background:#0e1523; color:#e6eaf0; border-radius:12px; border:1px solid rgba(0,0,0,.08);
@@ -108,10 +105,7 @@
     }
     .btn:hover{ filter:brightness(1.05); }
 
-    .page-title{
-      font-size:22px; font-weight:900; color:#eef2f7;
-      margin:10px 0 16px;
-    }
+    .page-title{ font-size:22px; font-weight:900; color:#eef2f7; margin:10px 0 16px; }
 
     .day-grid{
       display:grid; grid-template-columns:repeat(auto-fit, minmax(160px,1fr));
@@ -137,10 +131,19 @@
       border-color:#66d9e8;
     }
 
-    .day-title{
-      font-size:20px; font-weight:900; color:#eef2f7;
-      margin:10px 0 12px;
+    /* 빌드 칩 (메인 그리드 & 상세 상단 공용) */
+    .chips{ display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+    .chip{
+      display:inline-block; padding:8px 12px; font-weight:800; font-size:13px;
+      background:#0e1523; color:#e6eaf0; border:1px solid rgba(255,255,255,.08);
+      border-radius:9999px; box-shadow:0 2px 6px rgba(0,0,0,.12);
     }
+    .chip:hover{ filter:brightness(1.1); }
+    .build-switch{ display:flex; gap:8px; margin:0 0 12px; }
+    .build-switch .chip{ background:#0f172a; color:#e2e8f0; border-color:rgba(255,255,255,.08); }
+    .build-switch .chip.active{ background:#22b8cf; color:#0b1320; border-color:transparent; }
+
+    .day-title{ font-size:20px; font-weight:900; color:#eef2f7; margin:10px 0 12px; }
     .content-box{
       background:linear-gradient(180deg,#ffffff,#f7f9fc);
       color:#1f2937;
@@ -175,15 +178,9 @@
 
     <div class="banner-inner">
       <div class="logo">
-        <!-- 왼쪽 별 -->
-        <svg class="logo-star" viewBox="0 0 24 24" aria-hidden="true">
-          <path fill="currentColor" d="M12 2l3.09 6.26L22 9.27l-5 4.88L18.2 22 12 18.6 5.8 22l1.2-7.85-5-4.88 6.91-1.01L12 2z"/>
-        </svg>
+        <svg class="logo-star" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2l3.09 6.26L22 9.27l-5 4.88L18.2 22 12 18.6 5.8 22l1.2-7.85-5-4.88 6.91-1.01L12 2z"/></svg>
         <span class="title-text">세븐나이츠 리버스 <span class="title-star">스타</span> 길드</span>
-        <!-- 오른쪽 별 -->
-        <svg class="logo-star" viewBox="0 0 24 24" aria-hidden="true">
-          <path fill="currentColor" d="M12 2l3.09 6.26L22 9.27l-5 4.88L18.2 22 12 18.6 5.8 22l1.2-7.85-5-4.88 6.91-1.01L12 2z"/>
-        </svg>
+        <svg class="logo-star" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2l3.09 6.26L22 9.27l-5 4.88L18.2 22 12 18.6 5.8 22l1.2-7.85-5-4.88 6.91-1.01L12 2z"/></svg>
       </div>
       <div class="tagline">세나 리버스 정보 공유</div>
     </div>
@@ -192,51 +189,30 @@
   <!-- 뷰: 메인 -->
   <section id="view-home" class="view active">
     <div class="menu-container">
-      <!-- 길드전 가이드: 같은 탭에서 외부 링크로 이동 -->
       <a href="https://www.hancomdocs.com/open?fileId=x8vPqLuFl2x8AYmLoYp2fSwZqLAXeFh6" rel="noopener">
         <div class="menu-item war" data-tile="war">
           <div class="shine"></div>
-          <!-- 교차된 검 아이콘 -->
-          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
-            <path fill="currentColor" d="M7.1 2l2.8 2.8-1.4 1.4L5.7 3.4 4.3 4.8l2.8 2.8-1.4 1.4L2.9 6.2 2 7.1l5.7 5.7-1.4 1.4L.6 8.6 2 7.1 3.4 5.7l-2-2L3.7 1l2 2L7.1 2zm9.8 20l-2.8-2.8 1.4-1.4 2.8 2.8 1.4-1.4-2.8-2.8 1.4-1.4 2.8 2.8.9-.9-5.7-5.7 1.4-1.4 7.7 7.7-1.4 1.4-1.4 1.4 2 2-2.3 2.3-2-2-.9.9zM8.6 8.6l6.8 6.8-1.4 1.4-6.8-6.8 1.4-1.4z"/>
-          </svg>
-          <div class="text">
-            <div class="title">길드전 가이드</div>
-            <div class="sub">추천 전술</div>
-          </div>
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7.1 2l2.8 2.8-1.4 1.4L5.7 3.4 4.3 4.8l2.8 2.8-1.4 1.4L2.9 6.2 2 7.1l5.7 5.7-1.4 1.4L.6 8.6 2 7.1 3.4 5.7l-2-2L3.7 1l2 2L7.1 2zm9.8 20l-2.8-2.8 1.4-1.4 2.8 2.8 1.4-1.4-2.8-2.8 1.4-1.4 2.8 2.8.9-.9-5.7-5.7 1.4-1.4 7.7 7.7-1.4 1.4-1.4 1.4 2 2-2.3 2.3-2-2-.9.9zM8.6 8.6l6.8 6.8-1.4 1.4-6.8-6.8 1.4-1.4z"/></svg>
+          <div class="text"><div class="title">길드전 가이드</div><div class="sub">추천 전술</div></div>
         </div>
       </a>
 
-      <!-- 공성전 가이드: 내부 라우팅 -->
       <a href="#/siege">
         <div class="menu-item siege" data-tile="siege">
           <div class="shine"></div>
-          <!-- 성채 아이콘 -->
-          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
-            <path fill="currentColor" d="M4 3h4v3h2V3h4v3h2V3h4v18H4V3zm2 8h12v8H6v-8zm2 2v4h2v-4H8zm6 0v4h2v-4h-2z"/>
-          </svg>
-          <div class="text">
-            <div class="title">공성전 가이드</div>
-            <div class="sub">요일별 루트 · 영웅 공략</div>
-          </div>
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4 3h4v3h2V3h4v3h2V3h4v18H4V3zm2 8h12v8H6v-8zm2 2v4h2v-4H8zm6 0v4h2v-4h-2z"/></svg>
+          <div class="text"><div class="title">공성전 가이드</div><div class="sub">요일별 루트 · 영웅 공략</div></div>
         </div>
       </a>
 
-      <!-- 웹사이트 출석체크 (새 탭) -->
       <a href="https://skre-shop.netmarble.com/event/daily_gift" target="_blank" rel="noopener">
         <div class="menu-item checkin" data-tile="checkin">
           <div class="shine"></div>
-          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
-            <path fill="currentColor" d="M20 7h-2.1c.4-.5.6-1.1.6-1.8C18.5 3.6 17 2 15.2 2c-1.4 0-2.6.9-3.2 2.1C11.4 2.9 10.2 2 8.8 2 7 2 5.5 3.6 5.5 5.2c0 .7.2 1.3.6 1.8H4v4h2v9h6v-9h2v9h6v-9h2V7h-2zm-8-2c.6-1 1.6-1.3 2.3-1.3.8 0 1.7.7 1.7 1.5S14.5 7 13.7 7H12V5zm-2 2H8.3C7.5 7 6.5 6.4 6.5 5.6S7.4 4 8.2 4C8.9 4 10 4.6 10.6 6V7z"/>
-          </svg>
-          <div class="text">
-            <div class="title">웹사이트 출석체크</div>
-            <div class="sub">일일 보상받기</div>
-          </div>
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20 7h-2.1c.4-.5.6-1.1.6-1.8C18.5 3.6 17 2 15.2 2c-1.4 0-2.6.9-3.2 2.1C11.4 2.9 10.2 2 8.8 2 7 2 5.5 3.6 5.5 5.2c0 .7.2 1.3.6 1.8H4v4h2v9h6v-9h2v9h6v-9h2V7h-2zm-8-2c.6-1 1.6-1.3 2.3-1.3.8 0 1.7.7 1.7 1.5S14.5 7 13.7 7H12V5zm-2 2H8.3C7.5 7 6.5 6.4 6.5 5.6S7.4 4 8.2 4C8.9 4 10 4.6 10.6 6V7z"/></svg>
+          <div class="text"><div class="title">웹사이트 출석체크</div><div class="sub">일일 보상받기</div></div>
         </div>
       </a>
 
-      <!-- 자리 채움 -->
       <a href="#"><div class="menu-item disabled"><div class="text"><div class="title">준비중</div></div></div></a>
       <a href="#"><div class="menu-item disabled"><div class="text"><div class="title">준비중</div></div></div></a>
       <a href="#"><div class="menu-item disabled"><div class="text"><div class="title">준비중</div></div></div></a>
@@ -250,13 +226,56 @@
     </div>
     <div class="page-title">공성전 가이드</div>
     <div class="day-grid">
+
+      <!-- 월요일 + 빌드 칩 -->
       <a class="day-card" href="#/siege/mon">월요일(루디)</a>
+      <div class="chips">
+        <a class="chip" href="#/siege/mon/a">기본 빌드</a>
+        <a class="chip" href="#/siege/mon/b">대체 빌드</a>
+      </div>
+
+      <!-- 화요일 + 빌드 칩 -->
       <a class="day-card" href="#/siege/tue">화요일(아일린)</a>
+      <div class="chips">
+        <a class="chip" href="#/siege/tue/a">기본 빌드</a>
+        <a class="chip" href="#/siege/tue/b">대체 빌드</a>
+      </div>
+
+      <!-- 수요일 + 빌드 칩(이름 지정) -->
       <a class="day-card" href="#/siege/wed">수요일(레이첼)</a>
+      <div class="chips">
+        <a class="chip" href="#/siege/wed/van">바네사 빌드</a>
+        <a class="chip" href="#/siege/wed/bis">비스킷 빌드</a>
+      </div>
+
+      <!-- 목요일 + 빌드 칩 -->
       <a class="day-card" href="#/siege/thu">목요일(델론즈)</a>
+      <div class="chips">
+        <a class="chip" href="#/siege/thu/a">기본 빌드</a>
+        <a class="chip" href="#/siege/thu/b">대체 빌드</a>
+      </div>
+
+      <!-- 금요일 + 빌드 칩 -->
       <a class="day-card" href="#/siege/fri">금요일(제이브)</a>
+      <div class="chips">
+        <a class="chip" href="#/siege/fri/a">기본 빌드</a>
+        <a class="chip" href="#/siege/fri/b">대체 빌드</a>
+      </div>
+
+      <!-- 토요일 + 빌드 칩 -->
       <a class="day-card" href="#/siege/sat">토요일(스파이크)</a>
+      <div class="chips">
+        <a class="chip" href="#/siege/sat/a">기본 빌드</a>
+        <a class="chip" href="#/siege/sat/b">대체 빌드</a>
+      </div>
+
+      <!-- 일요일 + 빌드 칩 -->
       <a class="day-card" href="#/siege/sun">일요일(크리스)</a>
+      <div class="chips">
+        <a class="chip" href="#/siege/sun/a">기본 빌드</a>
+        <a class="chip" href="#/siege/sun/b">대체 빌드</a>
+      </div>
+
     </div>
   </section>
 
@@ -271,7 +290,7 @@
   </section>
 
   <script>
-    /* ===== 마우스 라이트 스팟 (메뉴 타일) ===== */
+    /* ===== 라이트 스팟 ===== */
     document.querySelectorAll('.menu-item').forEach(el=>{
       el.addEventListener('pointermove', e=>{
         const r = el.getBoundingClientRect();
@@ -282,264 +301,220 @@
       });
     });
 
-    /* ===== 간단 라우터 (Hash 기반, 뒤로가기 지원) ===== */
-    const DAY_LABELS = {
-      mon:'월요일', tue:'화요일', wed:'수요일', thu:'목요일',
-      fri:'금요일', sat:'토요일', sun:'일요일'
+    /* 라벨 */
+    const DAY_LABELS = { mon:'월요일', tue:'화요일', wed:'수요일', thu:'목요일', fri:'금요일', sat:'토요일', sun:'일요일' };
+    const DEFAULT_BUILD = { mon:'a', tue:'a', wed:'van', thu:'a', fri:'a', sat:'a', sun:'a' };
+    const BUILD_LABELS = {
+      mon: { a:'기본 빌드', b:'대체 빌드' },
+      tue: { a:'기본 빌드', b:'대체 빌드' },
+      wed: { van:'바네사 빌드', bis:'비스킷 빌드' },
+      thu: { a:'기본 빌드', b:'대체 빌드' },
+      fri: { a:'기본 빌드', b:'대체 빌드' },
+      sat: { a:'기본 빌드', b:'대체 빌드' },
+      sun: { a:'기본 빌드', b:'대체 빌드' },
     };
 
-    /* ▼ 요일별 기본 템플릿 함수 */
+    /* 공통 스켈레톤 */
     function skeleton(title){
       return `
         <h3 style="margin:0 0 10px">${title} · 세팅</h3>
         <ul style="margin:0 12px 14px 18px; line-height:1.7">
-          <li>(예시) 핵심 조건 · 스탯: <em style="color:#6b7280">작성 예정</em></li>
-          <li>(예시) 권능/유물/특수조건: <em style="color:#6b7280">작성 예정</em></li>
+          <li><em style="color:#6b7280">작성 예정</em></li>
         </ul>
         <h3 style="margin:0 0 8px">${title} · 스킬 순서</h3>
         <hr style="border:none;border-top:1px dashed #cbd5e1; margin:6px 0 10px"/>
         <ol style="margin:0 0 0 18px; line-height:1.7">
           <li><em style="color:#6b7280">작성 예정</em></li>
-          <li><em style="color:#6b7280">작성 예정</em></li>
-          <li><em style="color:#6b7280">작성 예정</em></li>
         </ol>
-        <p style="margin:10px 0 0; color:#94a3b8; font-size:13px">※ 내용 보내주면 즉시 업데이트할게요.</p>
+        <p style="margin:10px 0 0; color:#94a3b8; font-size:13px">※ 내용 보내주면 바로 채워넣을게요.</p>
       `;
     }
 
-    /* ▼ 요일별 콘텐츠: 월/화/수/목/금/토 반영, 일요일은 공지 */
-    const DAY_CONTENT = {
-      mon: `
-        <h3 style="margin:0 0 10px">세팅 · 영웅 배치</h3>
-        <ul style="margin:0 12px 14px 18px; line-height:1.7">
-          <li>배치: 보호진영 <b>후열 루리</b> / 전열 에반 · 바네사 · 연희 · 리나</li>
-          <li>루리: 치확 69% (+반지 10%), 치피 250%, 약공 40%</li>
-          <li>비스킷: 복수자, 치확/치피 (권능)</li>
-          <li>연희: 복수자, 치확/치피, 약공 10% (권능, 불사)</li>
-        </ul>
-        <h3 style="margin:0 0 8px">스킬 순서</h3>
-        <hr style="border:none;border-top:1px dashed #cbd5e1; margin:6px 0 10px"/>
-        <ol style="margin:0 0 0 18px; line-height:1.7">
-          <li>루리 아래</li>
-          <li>연희 아래</li>
-          <li>루리 위</li>
-          <li>비스킷 위</li>
-          <li>비스킷 아래</li>
-          <li>리나 위</li>
-          <li>리나 아래</li>
-          <li>루리 위</li>
-          <li>루리 아래</li>
-          <li>비스킷 위</li>
-          <li>연희 아래</li>
-          <li>루리 위</li>
-          <li>루리 아래</li>
-          <li>에반 위</li>
-          <li>루리 위</li>
-          <li>비스킷 아래</li>
-          <li>루리 아래</li>
-          <li>루리 위</li>
-          <li>비스킷 위</li>
-          <li>리나 위</li>
-          <li>연희 아래</li>
-          <li>루리 위</li>
-          <li>루리 아래</li>
-        </ol>
-      `,
-      tue: `
-        <h3 style="margin:0 0 10px">세팅 · 영웅 배치</h3>
-        <ul style="margin:0 12px 14px 18px; line-height:1.7">
-          <li>배치: 보호진영 <b>후열 루리</b> / 전열 클로에 · 비스킷 · 연희 · 리나</li>
-          <li>루리: <b>속공 최저</b>, 치확 57%, 치피 252%</li>
-          <li>연희 · 비스킷 · 복수자 (연희/비스킷 권능: 불사)</li>
-        </ul>
-        <h3 style="margin:0 0 8px">스킬 순서</h3>
-        <hr style="border:none;border-top:1px dashed #cbd5e1; margin:6px 0 10px"/>
-        <ol style="margin:0 0 0 18px; line-height:1.7">
-          <li>비스킷 위</li>
-          <li>클로에 위</li>
-          <li>비스킷 아래</li>
-          <li>리나 위</li>
-          <li>루리 위</li>
-          <li>루리 아래</li>
-          <li>(턴 스킵)</li>
-          <li>리나 아래</li>
-          <li>클로에 위</li>
-          <li>연희 아래</li>
-          <li>루리 위</li>
-          <li>루리 아래</li>
-          <li>비스킷 위</li>
-          <li>비스킷 아래</li>
-          <li>리나 위</li>
-          <li>클로에 위</li>
-          <li>리나 힐</li>
-          <li>루리 위</li>
-          <li>루리 아래</li>
-          <li>연희 아래</li>
-        </ol>
-      `,
-      wed: `
-        <h3 style="margin:0 0 10px">세팅 · 영웅 배치</h3>
-        <ul style="margin:0 12px 14px 18px; line-height:1.7">
-          <li>배치: 보호진영 <b>후열 루리</b> / 전열 아리엘 · 바네사 · 연희 · 리나</li>
-          <li>루리: 치확 69% (+반지 10%), 치피 240%, 약공 50% (+반지 8%)</li>
-          <li>연희 · 아리엘 · 바네사 · 복수자: 치확 85~90%, 치피 190~200%</li>
-          <li>아리엘: 부옵 생/방% 있으면 좋음 · 위 3캐릭 <b>권능 또는 불사 필수</b></li>
-        </ul>
-        <h3 style="margin:0 0 8px">스킬 순서</h3>
-        <hr style="border:none;border-top:1px dashed #cbd5e1; margin:6px 0 10px"/>
-        <ol style="margin:0 0 0 18px; line-height:1.7">
-          <li>아리엘 아래</li>
-          <li>바네사 위</li>
-          <li>리나 위</li>
-          <li>루리 위</li>
-          <li>바네사 아래</li>
-          <li>루리 아래</li>
-          <li>연희 아래</li>
-          <li>아리엘 아래</li>
-          <li>아리엘 위</li>
-          <li>루리 위</li>
-          <li>리나 아래</li>
-          <li>리나 위</li>
-          <li>바네사 아래</li>
-          <li>루리 아래</li>
-          <li>루리 위</li>
-          <li>아리엘 아래</li>
-          <li>아리엘 위</li>
-          <li>바네사 위</li>
-          <li>루리 위</li>
-        </ol>
-        <p style="margin:8px 0 0; color:#64748b; font-size:13px">* 마지막 턴은 살아있는 순서대로 스킬 바꿔도 무방</p>
-      `,
-      thu: `
-        <h3 style="margin:0 0 10px">세팅 · 영웅 배치</h3>
-        <ul style="margin:0 12px 14px 18px; line-height:1.7">
-          <li>배치: 보호진영 <b>후열 타카</b> / 전열 레이첼 · 비스킷 · 진 · 리나</li>
-          <li>세팅: <b>비스킷 6초</b> 미만 시, <b>진 공격력 &le; 타카 - 500</b> (최소 500 낮게)</li>
-          <li>권능: 다다익선(진 권능 추천), 레이첼 <b>2초월</b> 기준</li>
-        </ul>
-        <h3 style="margin:0 0 8px">스킬 순서</h3>
-        <hr style="border:none;border-top:1px dashed #cbd5e1; margin:6px 0 10px"/>
-        <ol style="margin:0 0 0 18px; line-height:1.7">
-          <li>진 아래</li>
-          <li>진 위</li>
-          <li>레이첼 위</li>
-          <li>비스킷 아래</li>
-          <li>리나 위</li>
-          <li>타카 아래</li>
-          <li>타카 위</li>
-          <li>레이첼 아래</li>
-          <li>진 아래</li>
-          <li>진 위</li>
-          <li>레이첼 위</li>
-          <li>타카 아래 <em>또는</em> 타카 위(먼저 도는 대로)</li>
-          <li>비스킷 아래</li>
-          <li>레이첼 아래</li>
-          <li>리나 위</li>
-          <li>레이첼 위</li>
-          <li>타카 위</li>
-          <li>진 위</li>
-          <li>타카 아래</li>
-        </ol>
-      `,
-      fri: `
-        <h3 style="margin:0 0 10px">세팅 · 영웅 배치</h3>
-        <ul style="margin:0 12px 14px 18px; line-height:1.7">
-          <li>배치: 보호진영 <b>후열 타카</b> / 전열 레이첼 · 지크 · 유이 · 비스킷</li>
-          <li>참고: <b>비스킷 6초</b> 시 타카·레이첼 <em>밸진</em></li>
-        </ul>
-        <h3 style="margin:0 0 8px">스킬 순서</h3>
-        <hr style="border:none;border-top:1px dashed #cbd5e1; margin:6px 0 10px"/>
-        <ol style="margin:0 0 0 18px; line-height:1.7">
-          <li>타카 아래</li>
-          <li>타카 위</li>
-          <li>레이첼 위</li>
-          <li>비스킷 아래</li>
-          <li>지크 아래</li>
-          <li>유이 아래</li>
-          <li>레이첼 아래</li>
-          <li>타카 아래</li>
-          <li>타카 위</li>
-          <li>레이첼 위</li>
-          <li>비스킷 아래</li>
-          <li>레이첼 아래</li>
-          <li>타카 아래</li>
-          <li>타카 위</li>
-          <li>지크 위</li>
-          <li>유이 아래</li>
-          <li>레이첼 위</li>
-          <li><em>(유이 위)</em></li>
-          <li>타카 위</li>
-          <li>타카 아래</li>
-        </ol>
-      `,
-      sat: `
-        <h3 style="margin:0 0 10px">세팅 · 영웅 배치</h3>
-        <ul style="margin:0 12px 14px 18px; line-height:1.7">
-          <li>배치: 보호진영 <b>후열 타카</b> / 전열 풍연 · 리나 · 레이첼 · 비스킷</li>
-          <li>세팅: <b>풍연 스킬</b>로 1, 2라운드 마무리 가능할 정도</li>
-        </ul>
-        <h3 style="margin:0 0 8px">스킬 순서</h3>
-        <hr style="border:none;border-top:1px dashed #cbd5e1; margin:6px 0 10px"/>
-        <ol style="margin:0 0 0 18px; line-height:1.7">
-          <li>풍연 아래</li>
-          <li>풍연 위</li>
-          <li>비스킷 아래</li>
-          <li>비스킷 위</li>
-          <li>레이첼 위</li>
-          <li>리나 위</li>
-          <li>타카 아래</li>
-          <li>타카 위</li>
-          <li>레이첼 아래</li>
-          <li>비스킷 위</li>
-          <li>레이첼 위</li>
-          <li>비스킷 아래</li>
-          <li>타카 아래</li>
-          <li>타카 위</li>
-          <li>리나 위</li>
-          <li>비스킷 위</li>
-          <li>레이첼 아래</li>
-          <li>레이첼 위</li>
-          <li>타카 위</li>
-          <li>타카 아래</li>
-        </ol>
-      `,
-      sun: `
-        <h3 style="margin:0 0 8px">데이터 수집중</h3>
-        <p style="margin:0; line-height:1.7">
-          일요일(크리스) 공성전 데이터 수집중입니다. 최신 공략이 정리되는 대로 업데이트할게요.
-        </p>
-      `,
-    };
+    /* ===== 요일별: 기본 빌드(A) 실제 내용 ===== */
 
+    const MON_A = `
+      <h3 style="margin:0 0 10px">세팅 · 영웅 배치</h3>
+      <ul style="margin:0 12px 14px 18px; line-height:1.7">
+        <li>배치: 보호진영 <b>후열 루리</b> / 전열 에반 · 바네사 · 연희 · 리나</li>
+        <li>루리: 치확 69% (+반지 10%), 치피 250%, 약공 40%</li>
+        <li>비스킷: 복수자, 치확/치피 (권능)</li>
+        <li>연희: 복수자, 치확/치피, 약공 10% (권능, 불사)</li>
+      </ul>
+      <h3 style="margin:0 0 8px">스킬 순서</h3>
+      <hr style="border:none;border-top:1px dashed #cbd5e1; margin:6px 0 10px"/>
+      <ol style="margin:0 0 0 18px; line-height:1.7">
+        <li>루리 아래</li><li>연희 아래</li><li>루리 위</li><li>비스킷 위</li>
+        <li>비스킷 아래</li><li>리나 위</li><li>리나 아래</li><li>루리 위</li>
+        <li>루리 아래</li><li>비스킷 위</li><li>연희 아래</li><li>루리 위</li>
+        <li>루리 아래</li><li>에반 위</li><li>루리 위</li><li>비스킷 아래</li>
+        <li>루리 아래</li><li>루리 위</li><li>비스킷 위</li><li>리나 위</li>
+        <li>연희 아래</li><li>루리 위</li><li>루리 아래</li>
+      </ol>
+    `;
+
+    const TUE_A = `
+      <h3 style="margin:0 0 10px">세팅 · 영웅 배치</h3>
+      <ul style="margin:0 12px 14px 18px; line-height:1.7">
+        <li>배치: 보호진영 <b>후열 루리</b> / 전열 클로에 · 비스킷 · 연희 · 리나</li>
+        <li>루리: <b>속공 최저</b>, 치확 57%, 치피 252%</li>
+        <li>연희 · 비스킷 · 복수자 (연희/비스킷 권능: 불사)</li>
+      </ul>
+      <h3 style="margin:0 0 8px">스킬 순서</h3>
+      <hr style="border:none;border-top:1px dashed #cbd5e1; margin:6px 0 10px"/>
+      <ol style="margin:0 0 0 18px; line-height:1.7">
+        <li>비스킷 위</li><li>클로에 위</li><li>비스킷 아래</li><li>리나 위</li>
+        <li>루리 위</li><li>루리 아래</li><li>(턴 스킵)</li><li>리나 아래</li>
+        <li>클로에 위</li><li>연희 아래</li><li>루리 위</li><li>루리 아래</li>
+        <li>비스킷 위</li><li>비스킷 아래</li><li>리나 위</li><li>클로에 위</li>
+        <li>리나 힐</li><li>루리 위</li><li>루리 아래</li><li>연희 아래</li>
+      </ol>
+    `;
+
+    /* 수요일: 바네사 빌드 */
+    const WED_VAN = `
+      <h3 style="margin:0 0 10px">세팅 · 영웅 배치</h3>
+      <ul style="margin:0 12px 14px 18px; line-height:1.7">
+        <li>배치: 보호진영 <b>후열 루리</b> / 전열 아리엘 · 바네사 · 연희 · 리나</li>
+        <li>루리: 치확 69% (+반지 10%), 치피 240%, 약공 50% (+반지 8%)</li>
+        <li>연희 · 아리엘 · 바네사 · 복수자: 치확 85~90%, 치피 190~200%</li>
+        <li>아리엘: 부옵 생/방% 있으면 좋음 · 위 3캐릭 <b>권능 또는 불사 필수</b></li>
+      </ul>
+      <h3 style="margin:0 0 8px">스킬 순서</h3>
+      <hr style="border:none;border-top:1px dashed #cbd5e1; margin:6px 0 10px"/>
+      <ol style="margin:0 0 0 18px; line-height:1.7">
+        <li>아리엘 아래</li><li>바네사 위</li><li>리나 위</li><li>루리 위</li>
+        <li>바네사 아래</li><li>루리 아래</li><li>연희 아래</li><li>아리엘 아래</li>
+        <li>아리엘 위</li><li>루리 위</li><li>리나 아래</li><li>리나 위</li>
+        <li>바네사 아래</li><li>루리 아래</li><li>루리 위</li><li>아리엘 아래</li>
+        <li>아리엘 위</li><li>바네사 위</li><li>루리 위</li>
+      </ol>
+      <p style="margin:8px 0 0; color:#64748b; font-size:13px">* 마지막 턴은 살아있는 순서대로 스킬 바꿔도 무방</p>
+    `;
+
+    const THU_A = `
+      <h3 style="margin:0 0 10px">세팅 · 영웅 배치</h3>
+      <ul style="margin:0 12px 14px 18px; line-height:1.7">
+        <li>배치: 보호진영 <b>후열 타카</b> / 전열 레이첼 · 비스킷 · 진 · 리나</li>
+        <li>세팅: <b>비스킷 6초 미만</b> 시, <b>진 공격력 ≤ 타카 - 500</b> (최소 500 낮게)</li>
+        <li>권능: 다다익선(진 권능 추천), 레이첼 <b>2초월</b> 기준</li>
+      </ul>
+      <h3 style="margin:0 0 8px">스킬 순서</h3>
+      <hr style="border:none;border-top:1px dashed #cbd5e1; margin:6px 0 10px"/>
+      <ol style="margin:0 0 0 18px; line-height:1.7">
+        <li>진 아래</li><li>진 위</li><li>레이첼 위</li><li>비스킷 아래</li>
+        <li>리나 위</li><li>타카 아래</li><li>타카 위</li><li>레이첼 아래</li>
+        <li>진 아래</li><li>진 위</li><li>레이첼 위</li>
+        <li>타카 아래 <em>또는</em> 타카 위(먼저 도는 대로)</li>
+        <li>비스킷 아래</li><li>레이첼 아래</li><li>리나 위</li><li>레이첼 위</li>
+        <li>타카 위</li><li>진 위</li><li>타카 아래</li>
+      </ol>
+    `;
+
+    const FRI_A = `
+      <h3 style="margin:0 0 10px">세팅 · 영웅 배치</h3>
+      <ul style="margin:0 12px 14px 18px; line-height:1.7">
+        <li>배치: 보호진영 <b>후열 타카</b> / 전열 레이첼 · 지크 · 유이 · 비스킷</li>
+        <li>참고: <b>비스킷 6초</b> 시 타카·레이첼 <em>밸진</em></li>
+      </ul>
+      <h3 style="margin:0 0 8px">스킬 순서</h3>
+      <hr style="border:none;border-top:1px dashed #cbd5e1; margin:6px 0 10px"/>
+      <ol style="margin:0 0 0 18px; line-height:1.7">
+        <li>타카 아래</li><li>타카 위</li><li>레이첼 위</li><li>비스킷 아래</li>
+        <li>지크 아래</li><li>유이 아래</li><li>레이첼 아래</li><li>타카 아래</li>
+        <li>타카 위</li><li>레이첼 위</li><li>비스킷 아래</li><li>레이첼 아래</li>
+        <li>타카 아래</li><li>타카 위</li><li>지크 위</li><li>유이 아래</li>
+        <li>레이첼 위</li><li><em>(유이 위)</em></li><li>타카 위</li><li>타카 아래</li>
+      </ol>
+    `;
+
+    const SAT_A = `
+      <h3 style="margin:0 0 10px">세팅 · 영웅 배치</h3>
+      <ul style="margin:0 12px 14px 18px; line-height:1.7">
+        <li>배치: 보호진영 <b>후열 타카</b> / 전열 풍연 · 리나 · 레이첼 · 비스킷</li>
+        <li>세팅: <b>풍연 스킬</b>로 1, 2라운드 마무리 가능할 정도</li>
+      </ul>
+      <h3 style="margin:0 0 8px">스킬 순서</h3>
+      <hr style="border:none;border-top:1px dashed #cbd5e1; margin:6px 0 10px"/>
+      <ol style="margin:0 0 0 18px; line-height:1.7">
+        <li>풍연 아래</li><li>풍연 위</li><li>비스킷 아래</li><li>비스킷 위</li>
+        <li>레이첼 위</li><li>리나 위</li><li>타카 아래</li><li>타카 위</li>
+        <li>레이첼 아래</li><li>비스킷 위</li><li>레이첼 위</li><li>비스킷 아래</li>
+        <li>타카 아래</li><li>타카 위</li><li>리나 위</li><li>비스킷 위</li>
+        <li>레이첼 아래</li><li>레이첼 위</li><li>타카 위</li><li>타카 아래</li>
+      </ol>
+    `;
+
+    const SUN_ANY = `
+      <h3 style="margin:0 0 8px">데이터 수집중</h3>
+      <p style="margin:0; line-height:1.7">일요일(크리스) 공성전 데이터 수집중입니다. 최신 공략이 정리되는 대로 업데이트할게요.</p>
+    `;
+
+    /* ===== 대체 빌드(B) 자리(스켈레톤)들 ===== */
+    const MON_B = skeleton('월요일(루디) · 대체 빌드');
+    const TUE_B = skeleton('화요일(아일린) · 대체 빌드');
+    const WED_BIS = skeleton('수요일(레이첼) · 비스킷 빌드');
+    const THU_B = skeleton('목요일(델론즈) · 대체 빌드');
+    const FRI_B = skeleton('금요일(제이브) · 대체 빌드');
+    const SAT_B = skeleton('토요일(스파이크) · 대체 빌드');
+    const SUN_B = SUN_ANY; // 일요일은 둘 다 동일 공지
+
+    /* 빌드별 콘텐츠 매핑 */
+    function getContent(day, build){
+      switch(day){
+        case 'mon': return build==='b' ? MON_B : MON_A;
+        case 'tue': return build==='b' ? TUE_B : TUE_A;
+        case 'wed': return build==='bis' ? WED_BIS : WED_VAN;
+        case 'thu': return build==='b' ? THU_B : THU_A;
+        case 'fri': return build==='b' ? FRI_B : FRI_A;
+        case 'sat': return build==='b' ? SAT_B : SAT_A;
+        case 'sun': return build==='b' ? SUN_B : SUN_ANY;
+        default: return skeleton('요일');
+      }
+    }
+
+    /* ===== 뷰 전환 ===== */
     function show(id){
       document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
       document.getElementById(id).classList.add('active');
       window.scrollTo({top:0, behavior:'instant'});
     }
 
+    function buildSwitcher(day, build){
+      const labels = BUILD_LABELS[day] || {};
+      // 수요일 특수키: van/bis, 기타: a/b
+      const keys = day==='wed' ? ['van','bis'] : ['a','b'];
+      const chip = (k)=>`
+        <a class="chip ${build===k?'active':''}" href="#/siege/${day}/${k}">
+          ${labels[k] || k.toUpperCase()}
+        </a>`;
+      return `<div class="build-switch">${chip(keys[0])}${chip(keys[1])}</div>`;
+    }
+
     function route(){
-      const hash = location.hash.replace(/^#\/?/, ''); // '', 'siege', 'siege/mon'
+      const hash = location.hash.replace(/^#\/?/, '');
       const parts = hash.split('/').filter(Boolean);
+      // 형태: '', 'siege', 'siege/mon', 'siege/mon/a', 'siege/wed/van' ...
 
-      if(parts.length === 0){
-        show('view-home');          // 메인
-        return;
-      }
-      if(parts[0] === 'siege' && parts.length === 1){
-        show('view-siege');         // 공성전 가이드
-        return;
-      }
+      if(parts.length === 0){ show('view-home'); return; }
+      if(parts[0] === 'siege' && parts.length === 1){ show('view-siege'); return; }
+
       if(parts[0] === 'siege' && parts[1]){
-        const day = parts[1];       // 요일 상세
-        const title = DAY_LABELS[day] || '요일';
-        document.getElementById('day-title').textContent = title;
+        const day = parts[1]; // mon..sun
+        const defaultBuild = DEFAULT_BUILD[day] || 'a';
+        const build = parts[2] || defaultBuild;
 
-        // 👉 요일별 내용 표시 (없으면 템플릿)
-        document.getElementById('day-content').innerHTML = DAY_CONTENT[day] || skeleton(title);
+        // 타이틀 구성
+        const buildName = (BUILD_LABELS[day] && BUILD_LABELS[day][build]) ? ` · ${BUILD_LABELS[day][build]}` : '';
+        document.getElementById('day-title').textContent = (DAY_LABELS[day] || '요일') + buildName;
 
-        show('view-day');
-        return;
+        // 상세 상단 빌드 스위치 + 본문
+        const switcher = buildSwitcher(day, build);
+        const body = getContent(day, build);
+        document.getElementById('day-content').innerHTML = switcher + body;
+
+        show('view-day'); return;
       }
+
       show('view-home');
     }
 
