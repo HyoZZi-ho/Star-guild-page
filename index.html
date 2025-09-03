@@ -1,99 +1,111 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>세븐나이츠 리버스 스타 길드</title>
-    <style>
-        /* 전체적인 스타일을 설정합니다 */
-        body {
-            font-family: 'Noto Sans KR', sans-serif; /* 보기 좋은 한글 폰트 적용 */
-            background-color: #f0f2f5; /* 부드러운 배경색 */
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>세븐나이츠 리버스 스타 길드</title>
+  <style>
+    /* 전체적인 스타일 */
+    body{
+      font-family:'Noto Sans KR', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background-color:#f0f2f5;
+      margin:0; padding:20px;
+      display:flex; justify-content:center; align-items:center; flex-direction:column;
+    }
 
-        /* 최상단 배너 스타일 */
-        .banner {
-            width: 100%;
-            max-width: 800px; /* 배너의 최대 너비 설정 */
-            margin-bottom: 30px;
-            text-align: center;
-        }
+    /* 최상단 배너(별 반짝임) */
+    .banner{
+      position:relative;
+      width:100%; max-width:800px; margin-bottom:30px;
+      border-radius:15px; overflow:hidden;
+      background:
+        radial-gradient(1200px 400px at 10% -20%, rgba(124,58,237,.35), transparent 60%),
+        radial-gradient(900px 360px at 90% -10%, rgba(102,217,232,.30), transparent 60%),
+        linear-gradient(135deg, #7c3aed, #66d9e8);
+      color:#fff; text-align:center;
+      box-shadow:0 4px 16px rgba(0,0,0,.15);
+    }
+    .banner-inner{ position:relative; z-index:1; padding:38px 20px 42px; }
+    .logo{ display:inline-flex; gap:10px; align-items:center; }
+    .logo-star{ width:42px; height:42px; color:#ffd166; filter:drop-shadow(0 4px 10px rgba(0,0,0,.25)); }
+    .title-text{ font-size:28px; font-weight:900; letter-spacing:-.4px; }
+    .tagline{ margin-top:6px; color:rgba(255,255,255,.9); font-size:14px; }
 
-        .banner img {
-            width: 100%;
-            height: auto;
-            border-radius: 15px; /* 배너 이미지 모서리를 둥글게 */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 추가 */
-        }
+    /* 배경 별(Twinkle) */
+    .stars{ position:absolute; inset:0; opacity:.6; z-index:0; }
+    .stars use{ opacity:.5; animation:twinkle 6s ease-in-out infinite; }
+    .stars use:nth-child(3n){ animation-duration:7.5s }
+    .stars use:nth-child(4n){ animation-duration:9s }
+    @keyframes twinkle{ 0%,100%{opacity:.25} 50%{opacity:.95} }
 
-        /* 메뉴들을 담을 컨테이너 */
-        .menu-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* 반응형으로 메뉴 배치 */
-            gap: 20px; /* 메뉴 사이의 간격 */
-            width: 100%;
-            max-width: 800px;
-        }
+    /* 메뉴 컨테이너/아이템 */
+    .menu-container{
+      display:grid; grid-template-columns:repeat(auto-fit, minmax(250px,1fr));
+      gap:20px; width:100%; max-width:800px;
+    }
+    .menu-item{
+      background-color:#fff; padding:30px; border-radius:20px;
+      text-align:center; font-size:1.5em; font-weight:bold; color:#333;
+      box-shadow:0 4px 8px rgba(0,0,0,.1);
+      transition:transform .2s, box-shadow .2s; cursor:pointer;
+    }
+    .menu-item:hover{ transform:translateY(-5px); box-shadow:0 8px 16px rgba(0,0,0,.2); }
 
-        /* 각 메뉴 박스 스타일 */
-        .menu-item {
-            background-color: white;
-            padding: 30px;
-            border-radius: 20px; /* 모서리를 뭉툭하게 */
-            text-align: center;
-            font-size: 1.5em; /* 글자 크기 키우기 */
-            font-weight: bold;
-            color: #333;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s, box-shadow 0.2s; /* 부드러운 효과 */
-            cursor: pointer; /* 마우스를 올리면 손가락 모양으로 */
-        }
-
-        /* 마우스를 올렸을 때 효과 */
-        .menu-item:hover {
-            transform: translateY(-5px); /* 살짝 위로 이동 */
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-        }
-        
-        /* 링크 스타일 제거 */
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-
-    </style>
+    /* 링크 기본 스타일 제거 */
+    a{ text-decoration:none; color:inherit; }
+    /* 비활성(준비중) 타일에 쓰면 좋음: <div class="menu-item disabled"> */
+    .disabled{ opacity:.55; pointer-events:none; }
+  </style>
 </head>
 <body>
 
-    <div class="banner">
-        <img src="https://via.placeholder.com/800x200.png?text=세븐나이츠+리버스+스타+길드" alt="세나리버스 스타길드 배너">
-    </div>
+  <!-- ⭐ 반짝이는 별 배너 -->
+  <div class="banner">
+    <svg class="stars" viewBox="0 0 1200 260" preserveAspectRatio="none" aria-hidden="true">
+      <defs>
+        <symbol id="s-star" viewBox="0 0 24 24">
+          <path d="M12 2.2l2.9 6 6.6 1-4.8 4.6 1.1 6.5L12 17.9 6.2 20.3l1.1-6.5-4.8-4.6 6.6-1L12 2.2z" fill="white"/>
+        </symbol>
+      </defs>
+      <!-- 여러 크기/위치의 별 -->
+      <use href="#s-star" x="80"  y="40"  width="12" height="12"/>
+      <use href="#s-star" x="210" y="90"  width="16" height="16"/>
+      <use href="#s-star" x="380" y="30"  width="10" height="10"/>
+      <use href="#s-star" x="560" y="70"  width="14" height="14"/>
+      <use href="#s-star" x="740" y="20"  width="11" height="11"/>
+      <use href="#s-star" x="930" y="80"  width="15" height="15"/>
+      <use href="#s-star" x="1080" y="40" width="12" height="12"/>
+      <use href="#s-star" x="160" y="170" width="11" height="11"/>
+      <use href="#s-star" x="460" y="190" width="14" height="14"/>
+      <use href="#s-star" x="780" y="165" width="11" height="11"/>
+      <use href="#s-star" x="1030" y="190" width="13" height="13"/>
+    </svg>
 
-    <div class="menu-container">
-        <a href="#"> <div class="menu-item">길드전 가이드</div>
-        </a>
-        <a href="#">
-            <div class="menu-item">공성전 가이드</div>
-        </a>
-        <a href="#">
-            <div class="menu-item">준비중</div>
-        </a>
-        <a href="#">
-            <div class="menu-item">준비중</div>
-        </a>
-        <a href="#">
-            <div class="menu-item">준비중</div>
-        </a>
-        <a href="#">
-            <div class="menu-item">준비중</div>
-        </a>
+    <div class="banner-inner">
+      <div class="logo">
+        <svg class="logo-star" viewBox="0 0 24 24" aria-hidden="true">
+          <path fill="currentColor" d="M12 2l3.09 6.26L22 9.27l-5 4.88L18.2 22 12 18.6 5.8 22l1.2-7.85-5-4.88 6.91-1.01L12 2z"/>
+        </svg>
+        <span class="title-text">세븐나이츠 리버스 · 스타 길드</span>
+      </div>
+      <div class="tagline">Senaverse Star Guild</div>
     </div>
+  </div>
+
+  <!-- 큼지막한 메뉴 타일들 -->
+  <div class="menu-container">
+    <!-- TODO: 여기를 네 실제 시트/문서 링크로 바꿔 넣어 -->
+    <a href="https://docs.google.com/spreadsheets/d/예시" target="_blank" rel="noopener">
+      <div class="menu-item">길드전 가이드</div>
+    </a>
+    <a href="#" target="_blank" rel="noopener">
+      <div class="menu-item">공성전 가이드</div>
+    </a>
+    <a href="#"><div class="menu-item disabled">준비중</div></a>
+    <a href="#"><div class="menu-item disabled">준비중</div></a>
+    <a href="#"><div class="menu-item disabled">준비중</div></a>
+    <a href="#"><div class="menu-item disabled">준비중</div></a>
+  </div>
 
 </body>
 </html>
