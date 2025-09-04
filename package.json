@@ -7,6 +7,6 @@
     "scrape:devnotes": "node scripts/scrape-devnotes.mjs"
   },
   "dependencies": {
-    "puppeteer": "^22.15.0"
+    "cheerio": "^1.0.0-rc.12"
   }
 }
