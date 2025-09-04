@@ -3,7 +3,7 @@ name: Update devnotes.json
 on:
   schedule:
     - cron: '*/30 * * * *'   # 30분마다
-  workflow_dispatch: {}       # 수동 실행 버튼
+  workflow_dispatch: {}       # 수동 실행
   push:
     paths:
       - '.github/workflows/devnotes.yml'
@@ -16,6 +16,7 @@ permissions:
 jobs:
   scrape:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -43,3 +44,14 @@ jobs:
           else
             echo "No changes to commit."
           fi
+
+      # ✅ 진단용 아티팩트 업로드: 스크린샷/HTML/JSON
+      - name: Upload debug artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: devnotes-debug
+          path: |
+            data/devnotes_debug.html
+            data/devnotes_debug.png
+            data/devnotes.json
+          if-no-files-found: warn
