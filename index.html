@@ -16,7 +16,7 @@
     /* ⭐ 최상단 배너 (반짝이는 별) */
     .banner{
       position:relative;
-      width:100%; max-width:800px; margin-bottom:10px; /* 아래 크레딧과 간격을 위해 살짝 줄임 */
+      width:100%; max-width:800px; margin-bottom:10px;
       border-radius:15px; overflow:hidden;
       background:
         radial-gradient(1200px 400px at 10% -20%, rgba(124,58,237,.35), transparent 60%),
@@ -39,28 +39,17 @@
     .stars use:nth-child(4n){ animation-duration:9s }
     @keyframes twinkle{ 0%,100%{opacity:.25} 50%{opacity:.95} }
 
-    /* 배너 하단 크레딧 (기본: 배너 내부용) */
-    .banner-credit{
-      position:absolute;
-      left:50%;
-      bottom:8px;
-      transform:translateX(-50%);
-      font-size:12px;
-      color:rgba(255,255,255,.8);
-      text-shadow:0 1px 2px rgba(0,0,0,.35);
-      z-index:1;
-      pointer-events:none;
-      letter-spacing:.2px;
-    }
-    /* 배너 밖에 두는 버전 */
+    /* 배너 하단 크레딧(배너 밖에 렌더) */
     .banner-credit--outside{
       position:static;
       transform:none;
       pointer-events:auto;
-      margin:6px 0 24px; /* 배너와 아래 콘텐츠 사이 간격 */
+      margin:6px 0 12px;
       color:rgba(255,255,255,.8);
       text-shadow:none;
       text-align:center;
+      font-size:12px;
+      letter-spacing:.2px;
     }
 
     /* 링크 기본 제거 */
@@ -156,7 +145,7 @@
       border-color:#66d9e8;
     }
 
-    /* 빌드 칩 (메인 그리드 & 상세 상단 공용) */
+    /* 빌드 칩 */
     .chips{ display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
     .chip{
       display:inline-block; padding:8px 12px; font-weight:800; font-size:13px;
@@ -184,6 +173,18 @@
       color:rgba(255,255,255,.75);
       font-size:12px;
     }
+
+    /* 개발자노트 위젯 */
+    .devnote-widget{
+      width:100%; max-width:800px; margin:12px 0 18px;
+    }
+    .devnote-row{
+      display:flex; justify-content:space-between; gap:10px; padding:8px 0;
+      border-top:1px dashed #cbd5e1;
+    }
+    .devnote-title{ font-weight:800; color:#0e1523; }
+    .devnote-date{ color:#94a3b8; white-space:nowrap; }
+    .devnote-meta{ margin-top:8px; font-size:12px; color:#94a3b8; }
   </style>
 </head>
 <body>
@@ -219,8 +220,14 @@
     </div>
   </div>
 
-  <!-- 배너 바로 아래 크레딧 (배너 밖) -->
-  <div class="banner-credit banner-credit--outside">Made by 우타</div>
+  <!-- 배너 바로 아래 크레딧 -->
+  <div class="banner-credit--outside">Made by 우타</div>
+
+  <!-- 최신 개발자노트 위젯 -->
+  <div id="devnote-widget" class="content-box devnote-widget" aria-live="polite">
+    <div style="font-weight:900; margin-bottom:8px;">최신 개발자노트</div>
+    <div id="devnote-list" style="color:#64748b">불러오는 중...</div>
+  </div>
 
   <!-- 뷰: 메인 -->
   <section id="view-home" class="view active">
@@ -331,6 +338,13 @@
   </footer>
 
   <script>
+    /* ===== 상수: 개발자노트 API 엔드포인트 =====
+       - 같은 서버에 /data/devnotes.json 파일을 두면 CORS 이슈 없이 동작합니다.
+       - 서버리스 프록시 또는 공식 API가 있다면 아래 URL만 교체하세요.
+       - 기대 JSON 형식: [{ "title":"...", "url":"https://...", "date":"2025-09-01" }, ...]
+    */
+    const DEVNOTE_API = './data/devnotes.json';
+
     /* ===== 라이트 스팟 ===== */
     document.querySelectorAll('.menu-item').forEach(el=>{
       el.addEventListener('pointermove', e=>{
@@ -342,7 +356,7 @@
       });
     });
 
-    /* 라벨 */
+    /* ===== 라벨/빌드 ===== */
     const DAY_LABELS = { mon:'월요일', tue:'화요일', wed:'수요일', thu:'목요일', fri:'금요일', sat:'토요일', sun:'일요일' };
     const DEFAULT_BUILD = { mon:'a', tue:'a', wed:'van', thu:'a', fri:'a', sat:'a', sun:'a' };
     const BUILD_LABELS = {
@@ -355,7 +369,7 @@
       sun: { a:'기본 빌드', b:'대체 빌드' },
     };
 
-    /* 공통 스켈레톤 */
+    /* ===== 공통 스켈레톤 ===== */
     function skeleton(title){
       return `
         <h3 style="margin:0 0 10px">${title} · 세팅</h3>
@@ -372,7 +386,6 @@
     }
 
     /* ===== 요일별: 기본 빌드(A) 실제 내용 ===== */
-
     const MON_A = `
       <h3 style="margin:0 0 10px">세팅 · 영웅 배치</h3>
       <ul style="margin:0 12px 14px 18px; line-height:1.7">
@@ -411,7 +424,6 @@
       </ol>
     `;
 
-    /* 수요일: 바네사 빌드 */
     const WED_VAN = `
       <h3 style="margin:0 0 10px">세팅 · 영웅 배치</h3>
       <ul style="margin:0 12px 14px 18px; line-height:1.7">
@@ -490,7 +502,7 @@
       <p style="margin:0; line-height:1.7">일요일(크리스) 공성전 데이터 수집중입니다. 최신 공략이 정리되는 대로 업데이트할게요.</p>
     `;
 
-    /* ===== 대체 빌드(B) 자리(스켈레톤)들 ===== */
+    /* ===== 대체 빌드(B) ===== */
     const MON_B = skeleton('월요일(루디) · 대체 빌드');
     const TUE_B = skeleton('화요일(아일린) · 대체 빌드');
     const WED_BIS = `
@@ -531,9 +543,9 @@
     const THU_B = skeleton('목요일(델론즈) · 대체 빌드');
     const FRI_B = skeleton('금요일(제이브) · 대체 빌드');
     const SAT_B = skeleton('토요일(스파이크) · 대체 빌드');
-    const SUN_B = SUN_ANY; // 일요일은 둘 다 동일 공지
+    const SUN_B = SUN_ANY;
 
-    /* 빌드별 콘텐츠 매핑 */
+    /* ===== 빌드별 콘텐츠 매핑 ===== */
     function getContent(day, build){
       switch(day){
         case 'mon': return build==='b' ? MON_B : MON_A;
@@ -547,7 +559,7 @@
       }
     }
 
-    /* ===== 뷰 전환 ===== */
+    /* ===== 라우팅/전환 ===== */
     function show(id){
       document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
       document.getElementById(id).classList.add('active');
@@ -556,7 +568,6 @@
 
     function buildSwitcher(day, build){
       const labels = BUILD_LABELS[day] || {};
-      // 수요일 특수키: van/bis, 기타: a/b
       const keys = day==='wed' ? ['van','bis'] : ['a','b'];
       const chip = (k)=>`
         <a class="chip ${build===k?'active':''}" href="#/siege/${day}/${k}">
@@ -565,10 +576,17 @@
       return `<div class="build-switch">${chip(keys[0])}${chip(keys[1])}</div>`;
     }
 
+    const LAST_KEY = 'skre:last';
+    function saveLast(day, build){
+      try{ localStorage.setItem(LAST_KEY, JSON.stringify({day, build, t:Date.now()})); }catch(e){}
+    }
+    function loadLast(){
+      try{ return JSON.parse(localStorage.getItem(LAST_KEY)); }catch(e){ return null; }
+    }
+
     function route(){
       const hash = location.hash.replace(/^#\/?/, '');
       const parts = hash.split('/').filter(Boolean);
-      // 형태: '', 'siege', 'siege/mon', 'siege/mon/a', 'siege/wed/van' ...
 
       if(parts.length === 0){ show('view-home'); return; }
       if(parts[0] === 'siege' && parts.length === 1){ show('view-siege'); return; }
@@ -578,14 +596,22 @@
         const defaultBuild = DEFAULT_BUILD[day] || 'a';
         const build = parts[2] || defaultBuild;
 
-        // 타이틀 구성
         const buildName = (BUILD_LABELS[day] && BUILD_LABELS[day][build]) ? ` · ${BUILD_LABELS[day][build]}` : '';
         document.getElementById('day-title').textContent = (DAY_LABELS[day] || '요일') + buildName;
 
-        // 상세 상단 빌드 스위치 + 본문
         const switcher = buildSwitcher(day, build);
         const body = getContent(day, build);
-        document.getElementById('day-content').innerHTML = switcher + body;
+        const contentEl = document.getElementById('day-content');
+        contentEl.innerHTML = switcher + body;
+
+        // 접근성 포커스 + 타이틀
+        document.title = `공성전 가이드 - ${DAY_LABELS[day] || '요일'}${buildName}`;
+        contentEl.setAttribute('tabindex','-1');
+        contentEl.focus({preventScroll:true});
+        contentEl.addEventListener('blur', ()=>contentEl.removeAttribute('tabindex'), {once:true});
+
+        // 마지막 위치 저장
+        saveLast(day, build);
 
         show('view-day'); return;
       }
@@ -594,7 +620,53 @@
     }
 
     window.addEventListener('hashchange', route);
-    window.addEventListener('load', route);
+    window.addEventListener('load', ()=>{
+      // 마지막 본 위치로 복귀 (해시가 없을 때만)
+      if(!location.hash){
+        const last = loadLast();
+        if(last?.day){
+          const b = last.build || 'a';
+          location.hash = `#/siege/${last.day}/${b}`;
+        }
+      }
+      route();
+      renderDevNotes();
+    });
+
+    /* ===== 최신 개발자노트 렌더링 ===== */
+    async function renderDevNotes(){
+      const box = document.getElementById('devnote-list');
+      try{
+        const res = await fetch(DEVNOTE_API, { cache: 'no-store' });
+        if(!res.ok) throw new Error('API 응답 오류: ' + res.status);
+        const items = await res.json(); // [{title,url,date},...]
+
+        if(!Array.isArray(items) || items.length === 0){
+          box.textContent = '표시할 개발자노트가 없습니다.';
+          return;
+        }
+
+        const top = items.slice(0,3);
+        box.innerHTML = top.map(it => `
+          <div class="devnote-row">
+            <a class="devnote-title" href="${it.url}" target="_blank" rel="noopener">${escapeHTML(it.title || '제목 없음')}</a>
+            <span class="devnote-date">${(it.date||'').slice(0,10)}</span>
+          </div>
+        `).join('') + `<div class="devnote-meta">자동 업데이트 · ${new Date().toLocaleString()}</div>`;
+      }catch(err){
+        console.error(err);
+        box.textContent = '개발자노트를 불러오지 못했습니다.';
+      }
+    }
+
+    function escapeHTML(s){
+      return String(s)
+        .replaceAll('&','&amp;')
+        .replaceAll('<','&lt;')
+        .replaceAll('>','&gt;')
+        .replaceAll('"','&quot;')
+        .replaceAll("'",'&#39;');
+    }
   </script>
 </body>
 </html>
