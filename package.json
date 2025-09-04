@@ -3,10 +3,6 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "scripts": {
-    "scrape:devnotes": "node scripts/scrape-devnotes.mjs"
-  },
-  "dependencies": {
-    "cheerio": "^1.0.0-rc.12"
-  }
+  "scripts": { "scrape:devnotes": "node scripts/scrape-devnotes.mjs" },
+  "dependencies": { "puppeteer": "^22.15.0" }
 }
