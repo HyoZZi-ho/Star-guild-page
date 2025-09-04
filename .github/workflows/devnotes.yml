@@ -1,0 +1,43 @@
+name: Update devnotes.json
+
+on:
+  schedule:
+    - cron: '*/30 * * * *'  # 30분마다
+  workflow_dispatch: {}      # 수동 실행 버튼
+  push:
+    paths:
+      - '.github/workflows/devnotes.yml'
+      - 'scripts/scrape-devnotes.mjs'
+      - 'package.json'
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install deps
+        run: npm ci || npm i
+
+      - name: Run scraper
+        run: npm run scrape:devnotes
+
+      - name: Commit & Push if changed
+        if: ${{ success() }}
+        run: |
+          if [[ -n "$(git status --porcelain data/devnotes.json)" ]]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add data/devnotes.json
+            git commit -m "chore: update devnotes.json [skip ci]"
+            git push
+          else
+            echo "No changes to commit."
+          fi
