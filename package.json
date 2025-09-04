@@ -1,0 +1,12 @@
+{
+  "name": "star-guild-page",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "scrape:devnotes": "node scripts/scrape-devnotes.mjs"
+  },
+  "dependencies": {
+    "puppeteer": "^22.15.0"
+  }
+}
