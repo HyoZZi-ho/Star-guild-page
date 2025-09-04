@@ -1,132 +1,107 @@
 /**
- * 스크레이퍼: 네이버 라운지 '세븐나이츠 리버스' 개발자노트 게시판(보드ID=3)
- * - 최신 글 상위 10개를 data/devnotes.json 으로 저장
- * - 형식: [{ title, url, date }]
+ * 네이버 라운지: 세나 리버스 개발자노트 보드(3)에서
+ * 최신 글 상위 10개를 data/devnotes.json으로 저장
+ * 형식: [{ title, url, date }]
  */
 import fs from 'fs/promises';
 import path from 'path';
-import puppeteer from 'puppeteer';
+import cheerio from 'cheerio';
 
 const BOARD_URL = 'https://game.naver.com/lounge/sena_rebirth/board/3';
 const OUT_DIR = 'data';
 const OUT_FILE = path.join(OUT_DIR, 'devnotes.json');
 
-const sleep = (ms) => new Promise(res => setTimeout(res, ms));
-
 function normalizeDate(s) {
   if (!s) return '';
-  // 예: '2025.09.01' → '2025-09-01'
   const m = s.trim().match(/(\d{4})[.\-\/](\d{1,2})[.\-\/](\d{1,2})/);
   if (!m) return s.trim();
-  const [_, y, mo, d] = m;
+  const [, y, mo, d] = m;
   const mm = String(mo).padStart(2, '0');
   const dd = String(d).padStart(2, '0');
   return `${y}-${mm}-${dd}`;
 }
 
-async function scrape() {
-  const browser = await puppeteer.launch({
-    headless: 'new',
-    args: ['--no-sandbox', '--disable-setuid-sandbox']
-  });
-  const page = await browser.newPage();
-  await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64)');
-  await page.goto(BOARD_URL, { waitUntil: 'networkidle2', timeout: 120000 });
-
-  // 목록이 비동기로 렌더링될 수 있으니, 대표 셀렉터 등장까지 대기 + 소량 슬립
-  const selectorCandidates = [
-    'a[href*="/lounge/sena_rebirth/board/3/"]',
-    'ul li a[class*="title"]',
-    'a[class*="post"]',
-  ];
-  let found = false;
-  for (const sel of selectorCandidates) {
-    try {
-      await page.waitForSelector(sel, { timeout: 4000 });
-      found = true;
-      break;
-    } catch {}
-  }
-  if (!found) {
-    // 그래도 못 찾으면 잠깐 더 대기
-    await sleep(2000);
-  }
-
-  // 혹시 모를 레이지 로딩 대비 약간 더 대기
-  await sleep(1000);
-
-  const items = await page.evaluate(() => {
-    const out = [];
-    const candidates = [
-      'a[href*="/lounge/sena_rebirth/board/3/"]',
-      'ul li a[class*="title"]',
-      'a[class*="post"]',
-    ];
-
-    const seen = new Set();
-    for (const sel of candidates) {
-      document.querySelectorAll(sel).forEach(a => {
-        try {
-          const href = a.getAttribute('href');
-          if (!href) return;
-          // 상세 글 링크만 (board/3/<숫자>)
-          if (!/\/lounge\/sena_rebirth\/board\/3\/\d+/.test(href)) return;
-
-          const url = new URL(href, location.origin).href;
-          if (seen.has(url)) return;
-          seen.add(url);
-
-          let title = (a.textContent || '').trim();
-          if (!title) {
-            const tEl = a.closest('li,article,div')?.querySelector('strong, .title, .subject, h3');
-            if (tEl) title = (tEl.textContent || '').trim();
-          }
-
-          let date = '';
-          const container = a.closest('li,article,div');
-          if (container) {
-            const dEl =
-              container.querySelector('time') ||
-              container.querySelector('[class*="date"]') ||
-              container.querySelector('[class*="time"]') ||
-              container.querySelector('span[aria-label*="날짜"], span[aria-label*="작성"]');
-            if (dEl) date = (dEl.textContent || '').trim();
-          }
-
-          out.push({ title, url, rawDate: date });
-        } catch {}
-      });
+async function fetchHtml(url) {
+  const r = await fetch(url, {
+    headers: {
+      'User-Agent':
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124 Safari/537.36',
+      'Accept-Language': 'ko,en;q=0.9'
     }
-    return out;
+  });
+  if (!r.ok) throw new Error(`HTTP ${r.status}`);
+  return await r.text();
+}
+
+async function scrape() {
+  // 1) HTML 가져오기
+  const html = await fetchHtml(BOARD_URL);
+
+  // 2) 파싱
+  const $ = cheerio.load(html);
+  const items = [];
+
+  // 링크 패턴: /lounge/sena_rebirth/board/3/<글번호>
+  $('a[href*="/lounge/sena_rebirth/board/3/"]').each((_, a) => {
+    const href = $(a).attr('href');
+    if (!href) return;
+    const m = href.match(/\/lounge\/sena_rebirth\/board\/3\/(\d+)/);
+    if (!m) return;
+
+    // 절대 URL
+    const url = new URL(href, 'https://game.naver.com').href;
+
+    // 제목
+    let title = $(a).text().trim();
+    if (!title) {
+      const tEl = $(a).closest('li,article,div').find('strong, .title, .subject, h3').first();
+      if (tEl.length) title = tEl.text().trim();
+    }
+    if (!title) return;
+
+    // 날짜 후보(같은 카드/행 안)
+    let date = '';
+    const container = $(a).closest('li,article,div');
+    if (container.length) {
+      const dEl =
+        container.find('time').first().text().trim() ||
+        container.find('[class*="date"]').first().text().trim() ||
+        container.find('[class*="time"]').first().text().trim() ||
+        container
+          .find('span[aria-label*="날짜"], span[aria-label*="작성"]')
+          .first()
+          .text()
+          .trim();
+      date = dEl || '';
+    }
+
+    items.push({ title, url, rawDate: date });
   });
 
-  await browser.close();
-
+  // 3) 정제 & 상위 10개
   const cleaned = items
     .filter(it => it.title && it.url)
     .map(it => ({ title: it.title, url: it.url, date: normalizeDate(it.rawDate) }))
     .filter((it, idx, arr) => arr.findIndex(x => x.url === it.url) === idx)
     .slice(0, 10);
 
+  // 4) 파일 저장(변경 시에만)
   await fs.mkdir(OUT_DIR, { recursive: true });
-
   let prev = '[]';
   try { prev = await fs.readFile(OUT_FILE, 'utf8'); } catch {}
   const next = JSON.stringify(cleaned, null, 2);
 
   if (prev.trim() === next.trim()) {
     console.log('No changes in devnotes.json');
-    return { changed: false };
+    return;
   }
-
   await fs.writeFile(OUT_FILE, next + '\n', 'utf8');
   console.log('Updated devnotes.json');
-  return { changed: true };
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {
   scrape().catch(err => {
-    console.error(err);
+    console.error('[scrape error]', err.message);
     process.exit(1);
   });
 }
